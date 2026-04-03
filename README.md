@@ -20,7 +20,7 @@
 - **HTTP APIサーバー** (`affect-wave serve`) - 外部エージェントからの POST 要求を受け付ける
 - `llama.cpp` 上のローカル埋め込みモデルを使う affect inference レイヤ
 - `affect state -> wave parameter -> renderer` の中間表現パイプライン
-- `wave mode` と `params mode` の切り替え
+- `params mode` を主表示とし、`wave mode` を補助的に併設する
 
 ## アーキテクチャ
 
@@ -29,7 +29,7 @@
     ↓ POST /analyze {user_message, agent_message}
 affect-wave API server
     ↓ 埋め込み取得 → affect推定 → wave生成
-    ↓ JSON response {wave_parameter, output, top_emotions}
+    ↓ JSON response {top_emotions, trend, wave_parameter}
 外部エージェント
     ↓ wave + response 組み合わせ
 Discord/Slack/CLI/etc.
@@ -99,7 +99,7 @@ affect-wave --help
   "user_message": "こんにちは",
   "agent_message": "こんにちは！何かお手伝いできますか？",
   "conversation_context": "",
-  "output_mode": "wave"
+  "output_mode": "params"
 }
 ```
 
@@ -269,8 +269,8 @@ affect-wave --help
 
 ## 出力モード
 
-- `wave mode`: デフォルト。ASCII/Unicode で気配を表現
-- `params mode`: 明示的設定時のみ有効。内部数値を JSON で返す
+- `params mode`: 主表示。`top_emotions`、`trend`、`compact_state`、`wave_parameter` を JSON で返す
+- `wave mode`: 補助表示。ASCII/Unicode による気配表現を返す experimental な renderer
 
 ## 必須設定
 
@@ -327,7 +327,7 @@ Discord の基準操作は slash command です。
 
 ## Skills / OpenClaw 導入メモ
 
-Skills や OpenClaw から使うときの主経路は API です。典型的には、外部エージェントが通常の返答本文を生成し、その `user_message` と `agent_message` を `affect-wave` に渡して wave を受け取ります。
+Skills や OpenClaw から使うときの主経路は API です。典型的には、外部エージェントが通常の返答本文を生成し、その `user_message` と `agent_message` を `affect-wave` に渡して `top_emotions`、`trend`、`wave_parameter` を受け取ります。`wave mode` は必要なときだけ補助的に使います。
 
 ### 最小 API フロー
 

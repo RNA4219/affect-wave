@@ -83,8 +83,8 @@
 
 | 項目 | 状態 | 備考 |
 | --- | --- | --- |
-| `wave mode` が既定表示である | 完了 | output_mode default |
-| `params mode` が明示的設定時のみ有効である | 完了 | |
+| `params mode` が既定表示である | 完了 | API-first 運用に合わせて整理 |
+| `wave mode` が補助表示として使える | 完了 | output_mode=wave |
 | `params mode` が JSON を返す | 完了 | |
 | `params mode` が `turn_id` を返す | 完了 | |
 | `params mode` が `mode=params` を返す | 完了 | |

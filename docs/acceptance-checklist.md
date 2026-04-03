@@ -32,8 +32,8 @@
 | wave | `wave_parameter` を毎ターン生成できる | 合格 | `POST /analyze` と `render` で確認 |
 | wave | `wave_parameter` の必須キーがすべて揃う | 合格 | `amplitude..density` を確認 |
 | wave | `wave_parameter` が同一入力で deterministic である | 合格 | `tests/test_converter.py::test_deterministic_conversion` と `tests/test_pipeline.py::test_deterministic_pipeline` |
-| mode | デフォルトで `wave mode` 表示を返せる | 合格 | `render --mode wave` で確認 |
-| mode | 設定変更で `params mode` 表示を返せる | 合格 | `POST /analyze output_mode=params` で確認 |
+| mode | デフォルトで `params mode` 表示を返せる | 合格 | `POST /analyze output_mode=params` で確認 |
+| mode | 補助的に `wave mode` 表示を返せる | 合格 | `render --mode wave` で確認 |
 | mode | `params mode` が同一 turn の `wave_parameter` を返す | 合格 | `turn-8a9ba05e` を確認 |
 | Discord | Discord で少なくとも 1 つの既定方式が確認できる | 要確認 | token / API LLM 未設定で実機未確認 |
 | Discord | 表示方式切替、通常表示位置、詳細表示トリガーが README と一致する | 要確認 | 実機未確認 |

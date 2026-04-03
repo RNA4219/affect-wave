@@ -29,8 +29,8 @@
 - `llama.cpp` 上のローカル埋め込みモデルを affect 推定の必須経路として使う
 - 毎ターン `affect_state` を生成する
 - `affect_state` から `wave_parameter` を生成する
-- CLI と Discord で `wave mode` を表示する
-- 設定で `params mode` を返せる
+- `params mode` を主表示として返せる
+- CLI と Discord で `wave mode` を補助表示できる
 
 ## 4. システム構成
 
@@ -222,13 +222,13 @@
 
 ## 8. 出力モード
 
-### 8.1 `wave mode`
+### 8.1 `params mode`
 
-既定モード。擬音、ASCII、Unicode、AA を使って短い情動波を返す。
+既定モード。`wave_parameter` を含む JSON を返す。
 
-### 8.2 `params mode`
+### 8.2 `wave mode`
 
-明示的設定時のみ有効。`wave_parameter` を JSON で返す。
+補助モード。擬音、ASCII、Unicode、AA を使って短い情動波を返す。
 
 `params mode` は `wave mode` と同一 turn の同一 `wave_parameter` を参照しなければならない。
 
@@ -279,7 +279,7 @@
 
 ### 9.1 CLI adapter
 
-- `wave mode` と `params mode` の双方を確認できる
+- `params mode` を主に確認でき、必要に応じて `wave mode` を補助確認できる
 - デバッグ確認の基準経路として使える
 
 CLI の最小コマンド面は以下を基準とする。
@@ -288,7 +288,7 @@ CLI の最小コマンド面は以下を基準とする。
 - `affect-wave inspect --turn <id>`
   指定 turn の `affect_state` と `wave_parameter` を確認する
 - `affect-wave render --mode wave`
-  直近 turn の `wave mode` 表示を確認する
+  直近 turn の `wave mode` 表示を補助確認する
 - `affect-wave render --mode params`
   直近 turn の `params mode` JSON を確認する
 
@@ -362,7 +362,8 @@ STATE_LOG_PATH=./logs/affect-state.jsonl
 - モデル配置ディレクトリ作成
 - `.env` 初期化
 - `llama.cpp` embeddings server 起動確認
-- Discord または CLI で `wave mode` 確認
+- API または CLI で `params mode` 確認
+- Discord または CLI で `wave mode` 補助確認
 
 初回導入の目標時間は 15 分以内とする。
 
@@ -382,12 +383,13 @@ affect-wave render --mode params
 2. affect 推定が埋め込みモデル経由で行われる
 3. `affect_state` を毎ターン生成できる
 4. `wave_parameter` を毎ターン生成できる
-5. `wave mode` が既定表示として返る
-6. `params mode` が同一 `wave_parameter` を返す
-7. Discord で少なくとも 1 つの既定方式が確認できる
-8. CLI で状態確認できる
-9. `setup.bat` と README に導入導線がある
-10. fine-grained concept layer と canonical 8 labels の対応が追跡できる
+5. `params mode` が既定表示として返る
+6. `wave mode` が補助表示として返る
+7. `params mode` が同一 `wave_parameter` を返す
+8. Discord で少なくとも 1 つの既定方式が確認できる
+9. CLI で状態確認できる
+10. `setup.bat` と README に導入導線がある
+11. fine-grained concept layer と canonical 8 labels の対応が追跡できる
 
 ## 15. 実装順
 
