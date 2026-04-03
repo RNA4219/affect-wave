@@ -22,7 +22,7 @@ class AnalyzeRequest(BaseModel):
     agent_message: str
     conversation_context: str = ""
     conversation_id: str = "default"
-    output_mode: Literal["wave", "params"] = "wave"
+    output_mode: Literal["wave", "params"] = "params"
 
 
 class AnalyzeResponse(BaseModel):

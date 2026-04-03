@@ -40,7 +40,7 @@ class Config:
     discord_transport: DiscordTransport = DiscordTransport.REPLY_PREFIX
 
     # Output settings
-    affect_output_mode: OutputMode = OutputMode.WAVE
+    affect_output_mode: OutputMode = OutputMode.PARAMS
 
     # State log settings
     state_log_enabled: bool = False
@@ -51,7 +51,7 @@ class Config:
 
     # API server settings
     api_host: str = "127.0.0.1"
-    api_port: int = 8080
+    api_port: int = 8081
 
     @classmethod
     def from_env(cls, env_path: Path | None = None) -> "Config":
@@ -68,7 +68,7 @@ class Config:
         else:
             load_dotenv()
 
-        output_mode_str = os.getenv("AFFECT_OUTPUT_MODE", "wave").lower()
+        output_mode_str = os.getenv("AFFECT_OUTPUT_MODE", "params").lower()
         output_mode = OutputMode.WAVE if output_mode_str == "wave" else OutputMode.PARAMS
 
         transport_str = os.getenv("DISCORD_TRANSPORT", "reply_prefix").lower()
@@ -93,7 +93,7 @@ class Config:
             state_log_path=Path(os.getenv("STATE_LOG_PATH", "./logs/affect-state.jsonl")),
             prototypes_dir=Path(os.getenv("PROTOTYPES_DIR", "./data/prototypes")),
             api_host=os.getenv("API_HOST", "127.0.0.1"),
-            api_port=int(os.getenv("API_PORT", "8080")),
+            api_port=int(os.getenv("API_PORT", "8081")),
         )
 
     def validate_for_serve(self) -> list[str]:

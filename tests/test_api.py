@@ -101,7 +101,7 @@ class TestAnalyzeRequest:
 
         assert request.conversation_context == ""
         assert request.conversation_id == "default"
-        assert request.output_mode == "wave"
+        assert request.output_mode == "params"
 
     def test_request_custom_mode(self):
         """Should accept custom mode."""

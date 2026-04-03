@@ -14,15 +14,15 @@ class TestConfig:
         """Should have sensible defaults."""
         config = Config()
 
-        assert config.affect_output_mode == OutputMode.WAVE
+        assert config.affect_output_mode == OutputMode.PARAMS
         assert config.discord_transport == DiscordTransport.REPLY_PREFIX
         assert config.state_log_enabled is False
         assert config.api_host == "127.0.0.1"
-        assert config.api_port == 8080
+        assert config.api_port == 8081
 
     def test_from_env(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
         """Should load from environment variables."""
-        monkeypatch.setenv("AFFECT_OUTPUT_MODE", "wave")
+        monkeypatch.setenv("AFFECT_OUTPUT_MODE", "params")
         monkeypatch.setenv("STATE_LOG_ENABLED", "true")
         monkeypatch.setenv("API_PORT", "9000")
 
