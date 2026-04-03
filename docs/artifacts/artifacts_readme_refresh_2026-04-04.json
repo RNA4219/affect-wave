@@ -1,0 +1,189 @@
+{
+  "selected_cases": [
+    {
+      "id": "core-002",
+      "title": "安心と静けさ",
+      "response": {
+        "turn_id": "turn-c9f9fae5",
+        "mode": "params",
+        "top_emotions": [
+          {
+            "name": "calm",
+            "score": 0.8276773281536625
+          },
+          {
+            "name": "curiosity",
+            "score": 0.6978408871917375
+          },
+          {
+            "name": "tension",
+            "score": 0.6511405477475238
+          }
+        ],
+        "trend": {
+          "valence": 0.05199028620577649,
+          "arousal": 0.4827671995219387,
+          "stability": 0.5911648509658394
+        },
+        "compact_state": {
+          "dominant": "calm",
+          "tone": "calm_stable",
+          "stability": "medium"
+        },
+        "wave_parameter": {
+          "amplitude": 0.586,
+          "frequency": 0.705,
+          "jitter": 0.607,
+          "glow": 0.513,
+          "afterglow": 0.352,
+          "density": 0.353
+        },
+        "wave_output": null
+      }
+    },
+    {
+      "id": "core-008",
+      "title": "差し迫った恐怖",
+      "response": {
+        "turn_id": "turn-10b9639c",
+        "mode": "params",
+        "top_emotions": [
+          {
+            "name": "fear",
+            "score": 0.739204477541944
+          },
+          {
+            "name": "tension",
+            "score": 0.6885454637468117
+          },
+          {
+            "name": "surprise",
+            "score": 0.5343549973333525
+          }
+        ],
+        "trend": {
+          "valence": -0.21168418475375114,
+          "arousal": 0.5205107547550882,
+          "stability": 0.5522248877962105
+        },
+        "compact_state": {
+          "dominant": "fear",
+          "tone": "alert_neutral",
+          "stability": "medium"
+        },
+        "wave_parameter": {
+          "amplitude": 0.586,
+          "frequency": 0.733,
+          "jitter": 0.646,
+          "glow": 0.479,
+          "afterglow": 0.373,
+          "density": 0.342
+        },
+        "wave_output": null
+      }
+    },
+    {
+      "id": "core-013",
+      "title": "驚きと気づき",
+      "response": {
+        "turn_id": "turn-0cd6bf17",
+        "mode": "params",
+        "top_emotions": [
+          {
+            "name": "surprise",
+            "score": 0.6454400557474439
+          },
+          {
+            "name": "curiosity",
+            "score": 0.6291309400692578
+          },
+          {
+            "name": "fear",
+            "score": 0.5853829427539198
+          }
+        ],
+        "trend": {
+          "valence": -0.08639498952156772,
+          "arousal": 0.5717446345836534,
+          "stability": 0.5186358753576319
+        },
+        "compact_state": {
+          "dominant": "surprise",
+          "tone": "alert_neutral",
+          "stability": "medium"
+        },
+        "wave_parameter": {
+          "amplitude": 0.594,
+          "frequency": 0.756,
+          "jitter": 0.684,
+          "glow": 0.483,
+          "afterglow": 0.327,
+          "density": 0.259
+        },
+        "wave_output": null
+      }
+    }
+  ],
+  "selected_wave_cases": [
+    {
+      "id": "core-002",
+      "title": "安心と静けさ",
+      "wave_output": "~ ^ ~ ~ ^ ~ ~ ^ ~ ~"
+    },
+    {
+      "id": "core-008",
+      "title": "差し迫った恐怖",
+      "wave_output": "~ ^ ~ ~ ^ ~ ~ ^ ~ ~"
+    },
+    {
+      "id": "core-013",
+      "title": "驚きと気づき",
+      "wave_output": "~ ^ ~ : ~ ^ ~ : ~ / spare"
+    }
+  ],
+  "yamagetsuki_combined": {
+    "source_case_ids": [
+      "core-017",
+      "core-018",
+      "core-019"
+    ],
+    "response": {
+      "turn_id": "turn-8ed60a7d",
+      "mode": "params",
+      "top_emotions": [
+        {
+          "name": "fear",
+          "score": 0.6443752908058737
+        },
+        {
+          "name": "anger",
+          "score": 0.5295163328034636
+        },
+        {
+          "name": "surprise",
+          "score": 0.48751395862421487
+        }
+      ],
+      "trend": {
+        "valence": -0.2619445509362445,
+        "arousal": 0.5575717020077859,
+        "stability": 0.561557717179548
+      },
+      "compact_state": {
+        "dominant": "fear",
+        "tone": "alert_neutral",
+        "stability": "medium"
+      },
+      "wave_parameter": {
+        "amplitude": 0.584,
+        "frequency": 0.726,
+        "jitter": 0.644,
+        "glow": 0.488,
+        "afterglow": 0.396,
+        "density": 0.381
+      },
+      "wave_output": null
+    },
+    "wave_output": "~ ^ ~ ~ ^ ~ ~ ^ ~ ~"
+  }
+}

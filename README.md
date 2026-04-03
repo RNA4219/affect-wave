@@ -152,70 +152,76 @@ affect-wave --help
 
 ### サンプル例
 
-> **注記**: 以下は現時点（PoC段階）の実測例です。初期 prototype のため、情動分離の品質はまだ改善中であり、値が直感とずれることがあります。
+> **注記**: 以下は現行実装を使って再計測した実測例です。`[data/evalsets/core-output-validation-v1.json](data/evalsets/core-output-validation-v1.json)` のケースから、比較的意味が読み取りやすい 3 件を抜粋しています。生データは [artifacts_readme_refresh_2026-04-04.json](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts/artifacts_readme_refresh_2026-04-04.json) に保存しています。
 
-**1. 裏切り・絶望**
-
-```json
-// Request
-{"user_message": "ブルータス、お前もか？", "agent_message": "Et tu, Brute? Caesar's last words echo betrayal."}
-
-// Response（実測）
-{
-  "turn_id": "turn-5d311484",
-  "mode": "params",
-  "top_emotions": [
-    {"name": "anger", "score": 0.77},
-    {"name": "sadness", "score": 0.76},
-    {"name": "tension", "score": 0.75}
-  ],
-  "trend": {"valence": -0.01, "arousal": 0.52, "stability": 0.41},
-  "compact_state": {"dominant": "anger", "tone": "sharp", "stability": "low"},
-  "wave_parameter": {"amplitude": 0.593, "frequency": 0.687, "jitter": 0.593, "glow": 0.453, "afterglow": 0.279, "density": 0.657}
-}
-```
-
-**2. 希望・楽観**
+**1. 安心と静けさ**
 
 ```json
 // Request
-{"user_message": "明日は明日の風が吹く", "agent_message": "After all, tomorrow is another day. Hope springs eternal."}
+{"user_message": "大丈夫。急がなくていい。今日はもう休んで、明日また考えよう。", "agent_message": "相手を落ち着かせる安心感と静かな受容が前面にある。"}
 
 // Response（実測）
 {
-  "turn_id": "turn-f0a045df",
+  "turn_id": "turn-c9f9fae5",
   "mode": "params",
   "top_emotions": [
-    {"name": "joy", "score": 0.75},
-    {"name": "calm", "score": 0.74},
-    {"name": "curiosity", "score": 0.72}
+    {"name": "calm", "score": 0.828},
+    {"name": "curiosity", "score": 0.698},
+    {"name": "tension", "score": 0.651}
   ],
-  "trend": {"valence": 0.12, "arousal": 0.48, "stability": 0.55},
-  "compact_state": {"dominant": "joy", "tone": "soft_rising", "stability": "medium"},
-  "wave_parameter": {"amplitude": 0.579, "frequency": 0.685, "jitter": 0.35, "glow": 0.55, "afterglow": 0.30, "density": 0.653}
+  "trend": {"valence": 0.052, "arousal": 0.483, "stability": 0.591},
+  "compact_state": {"dominant": "calm", "tone": "calm_stable", "stability": "medium"},
+  "wave_parameter": {"amplitude": 0.586, "frequency": 0.705, "jitter": 0.607, "glow": 0.513, "afterglow": 0.352, "density": 0.353}
 }
 ```
 
-**3. 忍耐・期待**
+`wave mode` の実測: `~ ^ ~ ~ ^ ~ ~ ^ ~ ~`
+
+**2. 差し迫った恐怖**
 
 ```json
 // Request
-{"user_message": "待て、しかして希望せよ", "agent_message": "Attendre et espérer. Patience and hope go hand in hand."}
+{"user_message": "足音が近づいてくる。息が止まりそうだ。見つかったら終わりだという恐怖で体が硬直する。", "agent_message": "差し迫った危険への恐怖と緊張が中心である。"}
 
 // Response（実測）
 {
-  "turn_id": "turn-4eb4fd9c",
+  "turn_id": "turn-10b9639c",
   "mode": "params",
   "top_emotions": [
-    {"name": "calm", "score": 0.79},
-    {"name": "curiosity", "score": 0.78},
-    {"name": "joy", "score": 0.77}
+    {"name": "fear", "score": 0.739},
+    {"name": "tension", "score": 0.689},
+    {"name": "surprise", "score": 0.534}
   ],
-  "trend": {"valence": 0.08, "arousal": 0.45, "stability": 0.62},
-  "compact_state": {"dominant": "calm", "tone": "steady", "stability": "medium"},
-  "wave_parameter": {"amplitude": 0.577, "frequency": 0.683, "jitter": 0.25, "glow": 0.50, "afterglow": 0.20, "density": 0.656}
+  "trend": {"valence": -0.212, "arousal": 0.521, "stability": 0.552},
+  "compact_state": {"dominant": "fear", "tone": "alert_neutral", "stability": "medium"},
+  "wave_parameter": {"amplitude": 0.586, "frequency": 0.733, "jitter": 0.646, "glow": 0.479, "afterglow": 0.373, "density": 0.342}
 }
 ```
+
+`wave mode` の実測: `~ ^ ~ ~ ^ ~ ~ ^ ~ ~`
+
+**3. 驚きと気づき**
+
+```json
+// Request
+{"user_message": "そういうことだったのか。ずっと見えていなかった意味に、いま突然気づいた。", "agent_message": "驚きと理解の瞬間が中心で、少しの興奮を伴う。"}
+
+// Response（実測）
+{
+  "turn_id": "turn-0cd6bf17",
+  "mode": "params",
+  "top_emotions": [
+    {"name": "surprise", "score": 0.645},
+    {"name": "curiosity", "score": 0.629},
+    {"name": "fear", "score": 0.585}
+  ],
+  "trend": {"valence": -0.086, "arousal": 0.572, "stability": 0.519},
+  "compact_state": {"dominant": "surprise", "tone": "alert_neutral", "stability": "medium"},
+  "wave_parameter": {"amplitude": 0.594, "frequency": 0.756, "jitter": 0.684, "glow": 0.483, "afterglow": 0.327, "density": 0.259}
+}
+```
+
+`wave mode` の実測: `~ ^ ~ : ~ ^ ~ : ~ / spare`
 
 ### 比較評価メモ
 
@@ -240,6 +246,14 @@ affect-wave --help
 | 袁傪への告白 | `~ ^ ~ : ~ ^ ~ : ~ ^` |
 
 以前の再計測より `stability=0.0` 固定や `jitter≈1.0` の飽和は外れています。一方で、`虎化の自覚` と `袁傪への告白` の文字波差はまだ小さく、現状の PoC は `params mode` の差分が `wave mode` に完全には乗り切っていません。
+
+#### 山月記 3 場面の統合入力
+
+`[data/evalsets/core-output-validation-v1.json](data/evalsets/core-output-validation-v1.json)` の `core-017` から `core-019` を 1 本の入力にまとめ、李徴の挫折、虎化の恐怖、袁傪への告白が重なった状態として再計測しました。全文そのままの長い青空文庫原文連結では埋め込みサーバー側の負荷が高いため、README では実運用に近い代表入力としてこの統合版を使っています。
+
+| 入力 | top_emotions | valence | arousal | stability | wave_parameter | wave_output |
+|------|--------------|---------|---------|-----------|----------------|-------------|
+| 山月記統合 | `fear`, `anger`, `surprise` | `-0.262` | `0.558` | `0.562` | `amplitude=0.584`, `jitter=0.644`, `density=0.381`, `afterglow=0.396` | `~ ^ ~ ~ ^ ~ ~ ^ ~ ~` |
 
 継続的な出力検証には、青空文庫の実引用を集めた評価セットを主に使います。基準セットは [docs/evaluation-datasets.md](docs/evaluation-datasets.md) と [data/evalsets/aozora-output-validation-v1.json](data/evalsets/aozora-output-validation-v1.json) を参照してください。合成ケースの補助確認には [data/evalsets/core-output-validation-v1.json](data/evalsets/core-output-validation-v1.json) を使います。
 
