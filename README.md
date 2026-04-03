@@ -1,5 +1,18 @@
 # affect-wave
 
+English README: [README.en.md](README.en.md)
+
+## English Summary
+
+`affect-wave` is an `affect expression interface` for LLM conversations. It is inspired by the Anthropic / Transformer Circuits paper [Emotion Concepts and their Function in a Large Language Model](https://transformer-circuits.pub/2026/emotions/index.html), but it does **not** read hidden states or internal activations directly. Instead, it approximates affect from API-visible conversation text using a local embedding model.
+
+- Main path: HTTP API / CLI
+- Primary output: `params mode`
+- Supplemental output: `wave mode` (experimental)
+- Main use case: external agents such as OpenClaw or Skills call `POST /analyze`
+
+For English readers, see [README.en.md](README.en.md). Japanese documentation continues below.
+
 `affect-wave` は、LLM 会話に含まれる情動的ニュアンスを、文字ベースの波として可視化する `affect expression interface` です。
 
 この OSS は、Anthropic / Transformer Circuits の論文 [Emotion Concepts and their Function in a Large Language Model](https://transformer-circuits.pub/2026/emotions/index.html) から着想を得ています。論文が扱うのは Claude Sonnet 4.5 の内部活性に現れる emotion concepts ですが、`affect-wave` は API 環境でも扱えるように、ローカル埋め込みモデル経由の擬似推定と文字ベース renderer に落とし込んだ実装です。つまり、ローカル LLM の内部状態から感情を直接抜き出しているわけではなく、API 経由で受け取った会話テキストから情動ニュアンスを推定している段階の OSS です。
