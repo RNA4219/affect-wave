@@ -1,0 +1,119 @@
+[
+  {
+    "id": "y1",
+    "title": "挫折",
+    "turn_id": "turn-8b2ae751",
+    "top_emotions": [
+      {
+        "name": "sadness",
+        "score": 0.7211014877302364
+      },
+      {
+        "name": "anger",
+        "score": 0.719539189937003
+      },
+      {
+        "name": "joy",
+        "score": 0.7193271244121929
+      }
+    ],
+    "trend": {
+      "valence": -0.0928895846875915,
+      "arousal": 0.5449897054731317,
+      "stability": 0.7
+    },
+    "compact_state": {
+      "dominant": "sadness",
+      "tone": "alert_neutral",
+      "stability": "medium"
+    },
+    "wave_parameter": {
+      "amplitude": 0.598,
+      "frequency": 0.721,
+      "jitter": 0.575,
+      "glow": 0.481,
+      "afterglow": 0.419,
+      "density": 0.951
+    },
+    "wave_output": "~ ^ ~ ~ ^ ~ ~ ^ ~ ~ ^ ~ ~ / packed",
+    "concept_count": 171
+  },
+  {
+    "id": "y2",
+    "title": "虎化の自覚",
+    "turn_id": "turn-a7a09ef3",
+    "top_emotions": [
+      {
+        "name": "anger",
+        "score": 0.746655200342515
+      },
+      {
+        "name": "fear",
+        "score": 0.74019221982444
+      },
+      {
+        "name": "tension",
+        "score": 0.7259736556216553
+      }
+    ],
+    "trend": {
+      "valence": -0.3086001611907119,
+      "arousal": 0.5815898199533442,
+      "stability": 0.44999999999999996
+    },
+    "compact_state": {
+      "dominant": "anger",
+      "tone": "tense_contracted",
+      "stability": "medium"
+    },
+    "wave_parameter": {
+      "amplitude": 0.631,
+      "frequency": 0.723,
+      "jitter": 0.73,
+      "glow": 0.48,
+      "afterglow": 0.356,
+      "density": 0.927
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~ : ~ / packed",
+    "concept_count": 171
+  },
+  {
+    "id": "y3",
+    "title": "袁傪への告白",
+    "turn_id": "turn-9315804b",
+    "top_emotions": [
+      {
+        "name": "sadness",
+        "score": 0.7518309835340915
+      },
+      {
+        "name": "anger",
+        "score": 0.7445023301782874
+      },
+      {
+        "name": "surprise",
+        "score": 0.7302190888623468
+      }
+    ],
+    "trend": {
+      "valence": -0.22768994793790365,
+      "arousal": 0.5372041445516984,
+      "stability": 0.2749999999999999
+    },
+    "compact_state": {
+      "dominant": "sadness",
+      "tone": "alert_neutral",
+      "stability": "low"
+    },
+    "wave_parameter": {
+      "amplitude": 0.602,
+      "frequency": 0.718,
+      "jitter": 0.832,
+      "glow": 0.482,
+      "afterglow": 0.244,
+      "density": 0.927
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~ : ~ / packed",
+    "concept_count": 171
+  }
+]

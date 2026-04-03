@@ -1,0 +1,116 @@
+[
+  {
+    "id": "yamagetsuki-frustration-v3",
+    "title": "挫折",
+    "turn_id": "turn-0733f7b3",
+    "top_emotions": [
+      {
+        "name": "anger",
+        "score": 0.6513483630687733
+      },
+      {
+        "name": "surprise",
+        "score": 0.6167440789311442
+      },
+      {
+        "name": "tension",
+        "score": 0.6154243087210082
+      }
+    ],
+    "trend": {
+      "valence": -0.19087969964023568,
+      "arousal": 0.5504227984101674,
+      "stability": 0.5269042671017274
+    },
+    "compact_state": {
+      "dominant": "anger",
+      "tone": "alert_neutral",
+      "stability": "medium"
+    },
+    "wave_parameter": {
+      "amplitude": 0.581,
+      "frequency": 0.717,
+      "jitter": 0.674,
+      "glow": 0.484,
+      "afterglow": 0.362,
+      "density": 0.403
+    },
+    "wave_output": null
+  },
+  {
+    "id": "yamagetsuki-tiger-v3",
+    "title": "虎化の自覚",
+    "turn_id": "turn-1f7bbf3d",
+    "top_emotions": [
+      {
+        "name": "fear",
+        "score": 0.6466083044473894
+      },
+      {
+        "name": "anger",
+        "score": 0.6273650228232004
+      },
+      {
+        "name": "surprise",
+        "score": 0.620003384581257
+      }
+    ],
+    "trend": {
+      "valence": -0.23939102862741055,
+      "arousal": 0.5570951339679815,
+      "stability": 0.5184835921452572
+    },
+    "compact_state": {
+      "dominant": "fear",
+      "tone": "alert_neutral",
+      "stability": "medium"
+    },
+    "wave_parameter": {
+      "amplitude": 0.584,
+      "frequency": 0.723,
+      "jitter": 0.681,
+      "glow": 0.48,
+      "afterglow": 0.369,
+      "density": 0.489
+    },
+    "wave_output": null
+  },
+  {
+    "id": "yamagetsuki-confession-v3",
+    "title": "袁傪への告白",
+    "turn_id": "turn-30a89fb0",
+    "top_emotions": [
+      {
+        "name": "anger",
+        "score": 0.6591305363813311
+      },
+      {
+        "name": "fear",
+        "score": 0.6388897167388934
+      },
+      {
+        "name": "tension",
+        "score": 0.6332910740227807
+      }
+    ],
+    "trend": {
+      "valence": -0.32257942350055946,
+      "arousal": 0.546634865955844,
+      "stability": 0.5214243473965068
+    },
+    "compact_state": {
+      "dominant": "anger",
+      "tone": "tense_contracted",
+      "stability": "medium"
+    },
+    "wave_parameter": {
+      "amplitude": 0.58,
+      "frequency": 0.713,
+      "jitter": 0.674,
+      "glow": 0.48,
+      "afterglow": 0.397,
+      "density": 0.322
+    },
+    "wave_output": null
+  }
+]

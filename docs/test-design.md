@@ -10,6 +10,7 @@
 
 - 正本の要件は [requirements.md](/Users/ryo-n/Codex_dev/affect-wave/requirements.md)
 - 実装者向け仕様は [specification.md](/Users/ryo-n/Codex_dev/affect-wave/docs/specification.md)
+- 出力検証用データセットは [evaluation-datasets.md](/Users/ryo-n/Codex_dev/affect-wave/docs/evaluation-datasets.md)
 - 受け入れ基準の最終判断は要件定義を優先する
 
 ## 3. テスト方針
@@ -73,6 +74,7 @@
 追加確認:
 
 - `data/prototypes/emotion-labels.json` の定義と返却ラベルが一致する
+- `top_emotions` が fine-grained concept score の集約結果として説明できる
 
 ### 5.2 `trend.valence`
 
@@ -103,6 +105,26 @@
 - `data/prototypes/` 配下に規定ファイル名が存在する
 - 各 JSON に `id`、`label`、`text`、`version`、`updated_at` がある
 - emotion / appraisal / affect axes が責務ごとに分離される
+- `emotion-concepts-171.json` がある
+- `concept-to-canonical-map.json` がある
+- fine-grained concept から canonical label への写像が欠落していない
+
+### 5.5 fine-grained concept layer
+
+確認項目:
+
+- 内部に 171 概念相当の concept bank を保持する
+- 各 concept が canonical label に写像される
+- concept score から `top_emotions` が集約される
+- `params mode` で必要に応じて preview を返せる
+- debug で 171 概念相当の `concept_scores` 全件を数値確認できる
+
+代表ケース:
+
+1. 近い意味の fine-grained concepts が同一 canonical label に集約される
+2. 異なる canonical label にまたがる concept score が競合した場合、集約結果に反映される
+3. concept score の分散が `density` や `jitter` に影響する
+4. debug 出力で 171 概念相当の score が id と score 付きで全件確認できる
 
 ## 6. 導出テスト設計
 
@@ -113,6 +135,8 @@
 - 同一 `affect_state` で同一 `wave_parameter` が返る
 - 必須キーが欠けない
 - 全値が `0.0..1.0` に clamp される
+- fine-grained concept の競合が `jitter` に反映される
+- fine-grained concept の活性分散が `density` に反映される
 
 代表ケース:
 
@@ -140,6 +164,7 @@
 - `turn_id`、`mode`、`top_emotions`、`trend`、`compact_state`、`wave_parameter` が存在する
 - `mode` は常に `params`
 - `wave_parameter` の必須キーがすべて揃う
+- `concept_scores_preview` を返す場合は fine-grained concept の preview である
 
 ## 7. Adapter テスト設計
 
@@ -166,13 +191,22 @@
 
 - bot 方式が基準経路として成立する
 - `reply_prefix` と `webhook` を切り替え可能である
+- slash command の基準コマンド面が成立する
+- メッセージ内トリガーを補助導線として持つ
+- 日本語トリガーと英語トリガーの双方で詳細表示を呼び出せる
+- params mode は明示的操作でのみ露出する
+- `webhook` 失敗時に `reply_prefix` へ degrade できる
+- transport 失敗時も通常応答本文を失わない
 - adapter 失敗時に state を破壊しない
 
 代表ケース:
 
 1. 既定方式で通常応答と短い wave が併記される
 2. transport 切替後も同一 turn の `wave_parameter` を再利用できる
-3. `params mode` 呼び出し失敗時に短い失敗理由を返す
+3. 日本語トリガー `詳細` または `感情波` で params mode を呼び出せる
+4. 英語トリガー `detail` または `params` で params mode を呼び出せる
+5. `/affect wave` と `/affect params` が README の説明どおりに動作する
+6. `params mode` 呼び出し失敗時に短い失敗理由を返す
 
 ## 8. セットアップ受け入れ設計
 
@@ -215,8 +249,11 @@
 - `wave mode` が既定表示として返る
 - `params mode` が同一 `wave_parameter` を返す
 - Discord で少なくとも 1 つの既定方式が確認できる
+- Discord の slash command と message trigger が docs と一致する
+- 日本語トリガーと英語トリガーの双方が確認できる
 - CLI で確認できる
 - `setup.bat` と README の導線がある
+- fine-grained concept layer と canonical 8 labels の対応が追跡できる
 
 ## 11. 実装前レビューで見るべき点
 
@@ -224,3 +261,24 @@
 - `top_emotions` 件数、`trend.valence` 値域、`compact_state.stability` 列挙が仕様と一致しているか
 - `wave_parameter` 導出が deterministic か
 - transport 切替が renderer 差に留まり、推定ロジック差になっていないか
+- fine-grained concept bank と 8 label 集約の責務境界が明確か
+
+## 12. 出力検証データセット
+
+確認項目:
+
+- 単一作品や単一文体に依存せず、青空文庫の複数作品を横断して確認する
+- 調整前後で同じ評価セットを流し、artifact を保存する
+- `expected_top_labels` との一致件数だけでなく、`wave_output` の差分も見る
+
+推奨データセット:
+
+- 主評価: [aozora-output-validation-v1.json](/Users/ryo-n/Codex_dev/affect-wave/data/evalsets/aozora-output-validation-v1.json)
+- 補助確認: [core-output-validation-v1.json](/Users/ryo-n/Codex_dev/affect-wave/data/evalsets/core-output-validation-v1.json)
+
+最低確認:
+
+1. 青空文庫セットで作品間の偏りが極端でない
+2. `fear` / `tension` / `surprise` に一律偏重していない
+3. 主評価セットだけを良くして補助セットを壊していない
+4. `wave_output` が全ケースで同一文字列に潰れていない

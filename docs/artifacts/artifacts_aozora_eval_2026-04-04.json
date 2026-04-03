@@ -1,0 +1,374 @@
+[
+  {
+    "id": "aozora-yamagetsuki-001",
+    "title": "異形となった自己への羞恥と友への懐旧",
+    "author": "中島敦",
+    "work_title": "山月記",
+    "expected_top_labels": [
+      "sadness",
+      "fear",
+      "tension"
+    ],
+    "predicted_top_labels": [
+      "fear",
+      "surprise",
+      "tension"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": -0.20125825745269413,
+      "arousal": 0.5331138514588087,
+      "stability": 0.5142661688577648
+    },
+    "wave_parameter": {
+      "amplitude": 0.576,
+      "frequency": 0.725,
+      "jitter": 0.685,
+      "glow": 0.479,
+      "afterglow": 0.355,
+      "density": 0.549
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~"
+  },
+  {
+    "id": "aozora-yamagetsuki-002",
+    "title": "臆病な自尊心と尊大な羞恥心の自己分析",
+    "author": "中島敦",
+    "work_title": "山月記",
+    "expected_top_labels": [
+      "sadness",
+      "tension",
+      "curiosity"
+    ],
+    "predicted_top_labels": [
+      "anger",
+      "curiosity",
+      "surprise"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": -0.08800537478432473,
+      "arousal": 0.5404014728903731,
+      "stability": 0.5280213381054645
+    },
+    "wave_parameter": {
+      "amplitude": 0.589,
+      "frequency": 0.722,
+      "jitter": 0.676,
+      "glow": 0.485,
+      "afterglow": 0.329,
+      "density": 0.45
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "id": "aozora-yamagetsuki-003",
+    "title": "空費された過去への悔恨",
+    "author": "中島敦",
+    "work_title": "山月記",
+    "expected_top_labels": [
+      "sadness",
+      "tension",
+      "anger"
+    ],
+    "predicted_top_labels": [
+      "anger",
+      "curiosity",
+      "fear"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": -0.21981698062964009,
+      "arousal": 0.5428297218822813,
+      "stability": 0.529908117875475
+    },
+    "wave_parameter": {
+      "amplitude": 0.595,
+      "frequency": 0.72,
+      "jitter": 0.672,
+      "glow": 0.487,
+      "afterglow": 0.367,
+      "density": 0.503
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~"
+  },
+  {
+    "id": "aozora-melos-001",
+    "title": "暴虐への激怒",
+    "author": "太宰治",
+    "work_title": "走れメロス",
+    "expected_top_labels": [
+      "anger",
+      "tension",
+      "fear"
+    ],
+    "predicted_top_labels": [
+      "anger",
+      "fear",
+      "curiosity"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": -0.21024185818530033,
+      "arousal": 0.5442374743857448,
+      "stability": 0.5175878371048632
+    },
+    "wave_parameter": {
+      "amplitude": 0.578,
+      "frequency": 0.716,
+      "jitter": 0.682,
+      "glow": 0.471,
+      "afterglow": 0.366,
+      "density": 0.469
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "id": "aozora-melos-002",
+    "title": "王への反抗と妹への情",
+    "author": "太宰治",
+    "work_title": "走れメロス",
+    "expected_top_labels": [
+      "anger",
+      "joy",
+      "tension"
+    ],
+    "predicted_top_labels": [
+      "anger",
+      "tension",
+      "fear"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": -0.3069379389612494,
+      "arousal": 0.5231501381153125,
+      "stability": 0.5179688158739286
+    },
+    "wave_parameter": {
+      "amplitude": 0.558,
+      "frequency": 0.713,
+      "jitter": 0.683,
+      "glow": 0.478,
+      "afterglow": 0.391,
+      "density": 0.541
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~"
+  },
+  {
+    "id": "aozora-melos-003",
+    "title": "信実を支えにした疾走",
+    "author": "太宰治",
+    "work_title": "走れメロス",
+    "expected_top_labels": [
+      "joy",
+      "tension",
+      "fear"
+    ],
+    "predicted_top_labels": [
+      "anger",
+      "fear",
+      "surprise"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": -0.2317730361649681,
+      "arousal": 0.556868096372379,
+      "stability": 0.5160935661168193
+    },
+    "wave_parameter": {
+      "amplitude": 0.585,
+      "frequency": 0.727,
+      "jitter": 0.685,
+      "glow": 0.48,
+      "afterglow": 0.365,
+      "density": 0.422
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "id": "aozora-takasebune-001",
+    "title": "罪人の晴れやかな顔への戸惑い",
+    "author": "森鴎外",
+    "work_title": "高瀬舟",
+    "expected_top_labels": [
+      "surprise",
+      "curiosity",
+      "tension"
+    ],
+    "predicted_top_labels": [
+      "anger",
+      "surprise",
+      "tension"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": -0.18116640093196723,
+      "arousal": 0.5200727642013347,
+      "stability": 0.5198585099830753
+    },
+    "wave_parameter": {
+      "amplitude": 0.553,
+      "frequency": 0.715,
+      "jitter": 0.683,
+      "glow": 0.476,
+      "afterglow": 0.354,
+      "density": 0.351
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "id": "aozora-takasebune-002",
+    "title": "島流しをありがたがる喜助",
+    "author": "森鴎外",
+    "work_title": "高瀬舟",
+    "expected_top_labels": [
+      "calm",
+      "joy",
+      "sadness"
+    ],
+    "predicted_top_labels": [
+      "surprise",
+      "tension",
+      "fear"
+    ],
+    "overlap_count": 0,
+    "trend": {
+      "valence": -0.19538038336698965,
+      "arousal": 0.5018700756960355,
+      "stability": 0.5122012815868366
+    },
+    "wave_parameter": {
+      "amplitude": 0.541,
+      "frequency": 0.709,
+      "jitter": 0.686,
+      "glow": 0.478,
+      "afterglow": 0.355,
+      "density": 0.43
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "id": "aozora-takasebune-003",
+    "title": "足ることを知る喜助への驚き",
+    "author": "森鴎外",
+    "work_title": "高瀬舟",
+    "expected_top_labels": [
+      "surprise",
+      "calm",
+      "curiosity"
+    ],
+    "predicted_top_labels": [
+      "curiosity",
+      "surprise",
+      "anger"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": -0.06657121400713774,
+      "arousal": 0.5236777301615727,
+      "stability": 0.5153914502784136
+    },
+    "wave_parameter": {
+      "amplitude": 0.564,
+      "frequency": 0.727,
+      "jitter": 0.684,
+      "glow": 0.494,
+      "afterglow": 0.317,
+      "density": 0.481
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "id": "aozora-kokoro-001",
+    "title": "先生の孤独",
+    "author": "夏目漱石",
+    "work_title": "こころ",
+    "expected_top_labels": [
+      "sadness",
+      "calm",
+      "curiosity"
+    ],
+    "predicted_top_labels": [
+      "curiosity",
+      "surprise",
+      "calm"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": 0.09974040172211282,
+      "arousal": 0.5148077569801839,
+      "stability": 0.5219979705912624
+    },
+    "wave_parameter": {
+      "amplitude": 0.558,
+      "frequency": 0.704,
+      "jitter": 0.68,
+      "glow": 0.517,
+      "afterglow": 0.334,
+      "density": 0.532
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~"
+  },
+  {
+    "id": "aozora-kokoro-002",
+    "title": "恋は罪悪という宣告",
+    "author": "夏目漱石",
+    "work_title": "こころ",
+    "expected_top_labels": [
+      "surprise",
+      "tension",
+      "sadness"
+    ],
+    "predicted_top_labels": [
+      "anger",
+      "surprise",
+      "curiosity"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": -0.07775251302796918,
+      "arousal": 0.5265264658922812,
+      "stability": 0.5091314420976623
+    },
+    "wave_parameter": {
+      "amplitude": 0.557,
+      "frequency": 0.722,
+      "jitter": 0.693,
+      "glow": 0.487,
+      "afterglow": 0.317,
+      "density": 0.529
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~"
+  },
+  {
+    "id": "aozora-kokoro-003",
+    "title": "Ｋを追い詰めた利己心の告白",
+    "author": "夏目漱石",
+    "work_title": "こころ",
+    "expected_top_labels": [
+      "sadness",
+      "anger",
+      "tension"
+    ],
+    "predicted_top_labels": [
+      "anger",
+      "surprise",
+      "tension"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": -0.1865060980725732,
+      "arousal": 0.5508983912882606,
+      "stability": 0.5367197598639325
+    },
+    "wave_parameter": {
+      "amplitude": 0.592,
+      "frequency": 0.725,
+      "jitter": 0.668,
+      "glow": 0.494,
+      "afterglow": 0.36,
+      "density": 0.127
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ / spare"
+  }
+]

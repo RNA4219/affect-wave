@@ -19,6 +19,8 @@
 
 `affect_state` は研究上の内部表現そのものではなく、アプリ層で扱う近似的な擬似状態として定義する。
 
+この定義は API で動かす制約に基づく暫定設計であり、論文により近い hidden state / activation ベースのローカル版は別途設計・実装する前提とする。
+
 ## 3. 実装スコープ
 
 初期実装で成立させるものは以下とする。
@@ -65,12 +67,25 @@
 - 類似度計算、重み、prototype 定義の所在を docs またはコードで追跡可能にする
 - API LLM の生テキストだけで affect を確定してはならない
 
+### 5.2.1 内部概念層
+
+参照実装は、論文の概念空間に可能な限り近づけるため、**171 概念相当の fine-grained emotion concept layer** を内部に持つ。
+
+これは UI で直接見せるラベル群ではなく、内部推定と集約のための概念層である。
+
+- 1 concept ごとに prototype と textual definition を持つ
+- concept ごとに canonical 8 labels への対応を持つ
+- `valence`、`arousal`、`appraisal` は concept score の重み付き合成を許容する
+- 論文との厳密一致は要求しないが、concept space の方向性は可能な限り寄せる
+
 ### 5.3 prototype 定義ファイル規約
 
 参照実装で使う prototype 定義は、リポジトリ内の固定パスから参照できなければならない。
 
 - 配置先は `data/prototypes/` を基準とする
+- 細粒度感情概念定義は `data/prototypes/emotion-concepts-171.json` とする
 - 感情ラベル定義は `data/prototypes/emotion-labels.json` とする
+- concept から canonical 8 labels への写像は `data/prototypes/concept-to-canonical-map.json` とする
 - appraisal 軸定義は `data/prototypes/appraisal-axes.json` とする
 - valence / arousal 軸定義は `data/prototypes/affect-axes.json` とする
 
@@ -97,16 +112,21 @@
 - `fear`
 - `surprise`
 
+これら 8 labels は **表示層の集約カテゴリ** であり、内部推定の最小単位ではない。
+
 ### 5.5 出力
 
 `affect_state` は少なくとも以下を含む。
 
 - `top_emotions`
+- `concept_scores`
 - `appraisal`
 - `trend`
 - `compact_state`
 
-`top_emotions` は参照実装で上位 3 件を返す。
+`top_emotions` は参照実装で上位 3 件を返し、fine-grained concept score を canonical 8 labels へ集約した結果とする。
+
+`concept_scores` は内部細粒度概念スコア群であり、少なくとも `id`、`canonical`、`score` を持つ。
 
 `trend.valence` は `-1.0` 以上 `1.0` 以下の符号付き正規化値とする。
 
@@ -148,6 +168,21 @@
 - 件数は 3 件固定
 - スコア降順で返す
 
+### 6.3 `concept_scores`
+
+```json
+[
+  { "id": "fg-001", "canonical": "sadness", "score": 0.83 },
+  { "id": "fg-002", "canonical": "anger", "score": 0.79 },
+  { "id": "fg-003", "canonical": "tension", "score": 0.76 }
+]
+```
+
+- 内部的には 171 概念相当を保持する
+- `params mode` では全件露出を必須にしない
+- debug では 171 概念相当の `concept_scores` 全件を数値で確認できなければならない
+- `params mode` では必要に応じて `concept_scores_preview` を返してよい
+
 ## 7. wave parameter 仕様
 
 `wave_parameter` は UI 共通の唯一の中間表現である。UI は `affect_state` に直接依存してはならない。
@@ -173,6 +208,11 @@
 - `glow <- appraisal.social_reward + positive(trend.valence)`
 - `afterglow <- trend.stability + signed(trend.valence)`
 - `density <- top_emotions の集中度 または appraisal の同時活性数`
+
+補助方針:
+
+- `jitter` は fine-grained concept の競合度が高いほど上がる
+- `density` は fine-grained concept の分散と活性数が高いほど上がる
 
 ### 7.3 導出条件
 
@@ -203,6 +243,11 @@
     { "name": "calm", "score": 0.52 },
     { "name": "surprise", "score": 0.31 }
   ],
+  "concept_scores_preview": [
+    { "id": "fg-014", "canonical": "curiosity", "score": 0.74 },
+    { "id": "fg-077", "canonical": "calm", "score": 0.68 },
+    { "id": "fg-103", "canonical": "surprise", "score": 0.51 }
+  ],
   "trend": {
     "valence": 0.18,
     "arousal": 0.37,
@@ -227,6 +272,7 @@
 - `turn_id` は turn 単位で一意
 - `mode` は常に `params`
 - `wave_parameter` は `wave mode` と同一 turn の同一値を返す
+- `concept_scores_preview` は任意だが、返す場合は fine-grained concept の上位プレビューとする
 - 追加フィールドは許容するが、上記キーは削除してはならない
 
 ## 9. Adapter 仕様
@@ -238,8 +284,7 @@
 
 CLI の最小コマンド面は以下を基準とする。
 
-- `affect-wave chat`
-  通常会話を行い、既定では `wave mode` を返す
+- `POST /analyze` を叩く外部エージェント経路を主経路とする
 - `affect-wave inspect --turn <id>`
   指定 turn の `affect_state` と `wave_parameter` を確認する
 - `affect-wave render --mode wave`
@@ -247,7 +292,7 @@ CLI の最小コマンド面は以下を基準とする。
 - `affect-wave render --mode params`
   直近 turn の `params mode` JSON を確認する
 
-初期実装では CLI の内部実装を自由に変えてよいが、README と docs ではこのコマンド面を基準例として扱う。
+初期実装では対話そのものは外部エージェント側に置いてよく、`affect-wave chat` のような内蔵会話 CLI は必須にしない。README と docs では API-first の運用を基準例として扱う。
 
 ### 9.2 text adapter
 
@@ -263,6 +308,18 @@ CLI の最小コマンド面は以下を基準とする。
 - Webhook は optional な追加方式とする
 
 Discord renderer は `wave_parameter` のみを参照し、`affect_state` に直接依存してはならない。
+
+Discord の操作面は以下を基準とする。
+
+- slash command を正本とする
+- 参照実装では `/affect wave`、`/affect params`、`/affect transport reply_prefix`、`/affect transport webhook` を持つ
+- メッセージ内トリガーを補助導線として持つ
+- メッセージ内トリガーは日本語と英語の双方を受け付ける
+- 日本語例: `詳細`、`感情波`、`パラメータ`
+- 英語例: `detail`、`wave`、`params`
+- params mode は明示的操作でのみ露出し、通常会話で自動露出しない
+- `webhook` が失敗した場合は `reply_prefix` へ degrade してよい
+- 表示 transport が失敗しても通常応答本文を失ってはならない
 
 ## 10. 設定仕様
 
@@ -312,7 +369,7 @@ STATE_LOG_PATH=./logs/affect-state.jsonl
 README または docs には、少なくとも以下の確認例を載せる。
 
 ```powershell
-affect-wave chat
+curl -X POST http://127.0.0.1:8081/analyze -H "Content-Type: application/json" -d "{\"user_message\":\"hello\",\"agent_message\":\"hi there\"}"
 affect-wave render --mode wave
 affect-wave render --mode params
 ```
@@ -330,6 +387,7 @@ affect-wave render --mode params
 7. Discord で少なくとも 1 つの既定方式が確認できる
 8. CLI で状態確認できる
 9. `setup.bat` と README に導入導線がある
+10. fine-grained concept layer と canonical 8 labels の対応が追跡できる
 
 ## 15. 実装順
 

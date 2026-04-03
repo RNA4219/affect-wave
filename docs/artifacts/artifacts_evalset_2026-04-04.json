@@ -1,0 +1,221 @@
+[
+  {
+    "title": "希望と再起",
+    "expected": [
+      "joy",
+      "curiosity",
+      "calm"
+    ],
+    "predicted": [
+      "fear",
+      "tension",
+      "curiosity"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": -0.1658570090711095,
+      "arousal": 0.534964574709437,
+      "stability": 0.5187065780924698
+    },
+    "wave_parameter": {
+      "amplitude": 0.587,
+      "frequency": 0.739,
+      "jitter": 0.685,
+      "glow": 0.471,
+      "afterglow": 0.348,
+      "density": 0.539
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~"
+  },
+  {
+    "title": "安心と静けさ",
+    "expected": [
+      "calm",
+      "joy"
+    ],
+    "predicted": [
+      "calm",
+      "tension",
+      "curiosity"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": 0.03947963669868758,
+      "arousal": 0.4827114183002942,
+      "stability": 0.5313135321452587
+    },
+    "wave_parameter": {
+      "amplitude": 0.554,
+      "frequency": 0.705,
+      "jitter": 0.666,
+      "glow": 0.508,
+      "afterglow": 0.318,
+      "density": 0.353
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "title": "裏切りへの怒り",
+    "expected": [
+      "anger",
+      "sadness",
+      "tension"
+    ],
+    "predicted": [
+      "anger",
+      "surprise",
+      "fear"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": -0.2539069915478154,
+      "arousal": 0.5638177896619883,
+      "stability": 0.5236082625254228
+    },
+    "wave_parameter": {
+      "amplitude": 0.597,
+      "frequency": 0.729,
+      "jitter": 0.672,
+      "glow": 0.483,
+      "afterglow": 0.377,
+      "density": 0.318
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "title": "差し迫った恐怖",
+    "expected": [
+      "fear",
+      "tension"
+    ],
+    "predicted": [
+      "fear",
+      "tension",
+      "surprise"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": -0.1967036347368498,
+      "arousal": 0.5206500095630211,
+      "stability": 0.5347047487637087
+    },
+    "wave_parameter": {
+      "amplitude": 0.585,
+      "frequency": 0.733,
+      "jitter": 0.663,
+      "glow": 0.479,
+      "afterglow": 0.36,
+      "density": 0.377
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^"
+  },
+  {
+    "title": "後悔と羞恥",
+    "expected": [
+      "sadness",
+      "tension"
+    ],
+    "predicted": [
+      "sadness",
+      "surprise",
+      "anger"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": -0.226961545731719,
+      "arousal": 0.5006854919646491,
+      "stability": 0.5102135196110932
+    },
+    "wave_parameter": {
+      "amplitude": 0.533,
+      "frequency": 0.691,
+      "jitter": 0.675,
+      "glow": 0.47,
+      "afterglow": 0.366,
+      "density": 0.308
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~"
+  },
+  {
+    "title": "好奇心と発見",
+    "expected": [
+      "curiosity",
+      "joy"
+    ],
+    "predicted": [
+      "curiosity",
+      "surprise",
+      "tension"
+    ],
+    "overlap_count": 1,
+    "trend": {
+      "valence": -0.028925155096078015,
+      "arousal": 0.5295164530997252,
+      "stability": 0.5290932448764064
+    },
+    "wave_parameter": {
+      "amplitude": 0.601,
+      "frequency": 0.756,
+      "jitter": 0.674,
+      "glow": 0.495,
+      "afterglow": 0.316,
+      "density": 0.355
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ / quick"
+  },
+  {
+    "title": "驚きと気づき",
+    "expected": [
+      "surprise",
+      "curiosity"
+    ],
+    "predicted": [
+      "surprise",
+      "curiosity",
+      "fear"
+    ],
+    "overlap_count": 2,
+    "trend": {
+      "valence": -0.08788324877186204,
+      "arousal": 0.5716217720136311,
+      "stability": 0.5428312689739808
+    },
+    "wave_parameter": {
+      "amplitude": 0.614,
+      "frequency": 0.756,
+      "jitter": 0.661,
+      "glow": 0.483,
+      "afterglow": 0.339,
+      "density": 0.259
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ / spare"
+  },
+  {
+    "title": "対話の安心感",
+    "expected": [
+      "calm",
+      "joy",
+      "curiosity"
+    ],
+    "predicted": [
+      "surprise",
+      "fear",
+      "tension"
+    ],
+    "overlap_count": 0,
+    "trend": {
+      "valence": -0.19466218029316737,
+      "arousal": 0.5176749038030306,
+      "stability": 0.5075784604078677
+    },
+    "wave_parameter": {
+      "amplitude": 0.577,
+      "frequency": 0.734,
+      "jitter": 0.692,
+      "glow": 0.47,
+      "afterglow": 0.35,
+      "density": 0.64
+    },
+    "wave_output": "~ ^ ~ : ~ ^ ~ : ~ ^ ~"
+  }
+]

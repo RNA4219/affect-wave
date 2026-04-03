@@ -1,77 +1,343 @@
 # affect-wave
 
-`affect-wave` は、API LLM の会話に含まれる情動的ニュアンスを、文字ベースの波として可視化する `affect expression interface` です。
+`affect-wave` は、LLM 会話に含まれる情動的ニュアンスを、文字ベースの波として可視化する `affect expression interface` です。
 
-本リポジトリは感情制御ツールではありません。情動状態を「管理」や「矯正」の対象ではなく、可視化・表現・翻訳・相互理解のための対象として扱います。公式原則は [PROJECT_CHARTER.md](/Users/ryo-n/Codex_dev/affect-wave/PROJECT_CHARTER.md) を参照してください。
+本リポジトリは感情制御ツールではありません。情動状態を「管理」や「矯正」の対象ではなく、可視化・表現・翻訳・相互理解のための対象として扱います。公式原則は [PROJECT_CHARTER.md](PROJECT_CHARTER.md) を参照してください。
 
 ## 現在の位置づけ
 
 - 初期リリースの対象は `API擬似版 PoC` です。
-- hidden state や内部活性を直接読むのではなく、API LLM の会話過程・出力・文脈遷移を、ローカル埋め込みモデル経由で擬似推定します。
+- **HTTP APIサーバー**として動作し、外部エージェントから会話ペアを受け取ります。
+- hidden state や内部活性を直接読むのではなく、会話過程・出力・文脈遷移を、ローカル埋め込みモデル経由で擬似推定します。
 - affect state は研究上の内部表現そのものではなく、UI と対話のためのアプリ層の近似的内部表現です。
+- 主経路は API / CLI であり、OpenClaw や Skills など外部エージェントから叩いて使う前提を優先します。
+- Discord adapter は補助的な表示 adapter であり、主経路の blocker ではありません。
 
 ## 何を作るか
 
-- API LLM を会話本体として利用する会話レイヤ
+- **HTTP APIサーバー** (`affect-wave serve`) - 外部エージェントからの POST 要求を受け付ける
 - `llama.cpp` 上のローカル埋め込みモデルを使う affect inference レイヤ
 - `affect state -> wave parameter -> renderer` の中間表現パイプライン
-- Discord と CLI を起点にした text-first 表示
 - `wave mode` と `params mode` の切り替え
 
-## 既知の制約
+## アーキテクチャ
 
-- 現時点では実装前のドキュメント整備フェーズです。
-- hidden state 直読は行いません。
-- Anthropic 研究の完全再現は目的に含みません。
-- Discord の参照実装は bot 方式を基準とし、Webhook は optional な追加方式として扱います。
+```
+外部エージェント (LLM生成)
+    ↓ POST /analyze {user_message, agent_message}
+affect-wave API server
+    ↓ 埋め込み取得 → affect推定 → wave生成
+    ↓ JSON response {wave_parameter, output, top_emotions}
+外部エージェント
+    ↓ wave + response 組み合わせ
+Discord/Slack/CLI/etc.
+```
 
-## 背景研究
+## セットアップ
 
-- Anthropic, *Emotion concepts and their function in a large language model*
-- Anthropic, *Signs of introspection in large language models*
-- Tak et al., *Mechanistic Interpretability of Emotion Inference in Large Language Models (2025)*
-- Soligo et al., *Investigating and Mitigating Emotional Instability in LLMs (2026)*
+### 1. 埋め込みモデルの取得
 
-これらは背景研究であり、本リポジトリは研究の完全再現ではありません。
+推奨モデル: **Qwen/Qwen3-Embedding-0.6B-GGUF (Q8_0)**
 
-## セットアップ方針
+`setup.bat` を実行すると自動的にダウンロードされます。
 
-現時点の `setup.bat` は実装前ガイド兼プレースホルダです。最終的には次を支援する想定です。
+### 2. llama.cpp embeddings server の起動
 
-- 埋め込みモデルの取得
-- モデル配置ディレクトリ作成
-- `.env` 初期化
-- `llama.cpp` embeddings server 起動導線
-- Discord / CLI の確認手順
+```powershell
+llama-server -m models\Qwen3-Embedding-0.6B-Q8_0.gguf --embeddings --pooling mean -c 8192 --port 8080
+```
 
-初回導入の目標時間は 15 分以内です。
+サーバーはデフォルトで `http://127.0.0.1:8080` で起動します。
 
-## 想定する設定
+### 3. 環境変数の設定
 
-`.env.example` に最低限の設定キーを置いています。
+`.env.example` を `.env` にコピーして編集:
 
-- `OPENAI_API_KEY`
-- `LLAMA_CPP_BASE_URL`
-- `EMBEDDING_MODEL`
-- `DISCORD_BOT_TOKEN`
-- `DISCORD_WEBHOOK_URL` (`optional`)
-- `AFFECT_OUTPUT_MODE`
-- `DISCORD_TRANSPORT`
-- `STATE_LOG_ENABLED`
-- `STATE_LOG_PATH`
+```env
+LLAMA_CPP_BASE_URL=http://127.0.0.1:8080
+EMBEDDING_MODEL=Qwen3-Embedding-0.6B-Q8_0
+API_HOST=127.0.0.1
+API_PORT=8081
+```
 
-## Discord 表示
+### 4. APIサーバー起動
 
-参照実装では Discord bot 方式を基準にします。
+```powershell
+# サーバー起動
+affect-wave serve --port 8081
 
-- 既定方式は bot での通常応答
-- 表示位置は `reply_prefix` か `webhook` を切り替え可能にする想定
-- `reply_prefix` は他の text-first platform に移植可能な共通 `text adapter` 方式として扱います
+# ヘルプ確認
+affect-wave --help
+```
+
+## API エンドポイント
+
+### POST /analyze
+
+会話ペアから affect を推定し wave を生成。
+
+#### Request
+
+```json
+{
+  "conversation_id": "demo-001",
+  "user_message": "こんにちは",
+  "agent_message": "こんにちは！何かお手伝いできますか？",
+  "conversation_context": "",
+  "output_mode": "wave"
+}
+```
+
+`conversation_id` は会話単位の state を分離するためのキーです。独立した比較評価をするときは、ケースごとに別の `conversation_id` を使ってください。
+
+#### Response（仕様書準拠形式）
+
+```json
+{
+  "turn_id": "turn-001",
+  "mode": "params",
+  "top_emotions": [
+    {"name": "joy", "score": 0.8},
+    {"name": "calm", "score": 0.5},
+    {"name": "curiosity", "score": 0.3}
+  ],
+  "trend": {
+    "valence": 0.6,
+    "arousal": 0.4,
+    "stability": 0.7
+  },
+  "compact_state": {
+    "dominant": "joy",
+    "tone": "warm",
+    "stability": "high"
+  },
+  "wave_parameter": {
+    "amplitude": 0.5,
+    "frequency": 0.8,
+    "jitter": 0.1,
+    "glow": 0.6,
+    "afterglow": 0.3,
+    "density": 0.4
+  }
+}
+```
+
+#### wave_parameter の意味
+
+| パラメータ | 範囲 | 説明 |
+|-----------|------|------|
+| amplitude | 0.0-1.0 | 波の高さ（arousal相当） |
+| frequency | 0.0-1.0 | 波の頻度 |
+| jitter | 0.0-1.0 | 揺らぎ（instability相当） |
+| glow | 0.0-1.0 | 輝き（positive valence相当） |
+| afterglow | 0.0-1.0 | 余韻 |
+| density | 0.0-1.0 | 密度 |
+
+---
+
+### サンプル例
+
+> **注記**: 以下は現時点（PoC段階）の実測例です。初期 prototype のため、情動分離の品質はまだ改善中であり、値が直感とずれることがあります。
+
+**1. 裏切り・絶望**
+
+```json
+// Request
+{"user_message": "ブルータス、お前もか？", "agent_message": "Et tu, Brute? Caesar's last words echo betrayal."}
+
+// Response（実測）
+{
+  "turn_id": "turn-5d311484",
+  "mode": "params",
+  "top_emotions": [
+    {"name": "anger", "score": 0.77},
+    {"name": "sadness", "score": 0.76},
+    {"name": "tension", "score": 0.75}
+  ],
+  "trend": {"valence": -0.01, "arousal": 0.52, "stability": 0.41},
+  "compact_state": {"dominant": "anger", "tone": "sharp", "stability": "low"},
+  "wave_parameter": {"amplitude": 0.593, "frequency": 0.687, "jitter": 0.593, "glow": 0.453, "afterglow": 0.279, "density": 0.657}
+}
+```
+
+**2. 希望・楽観**
+
+```json
+// Request
+{"user_message": "明日は明日の風が吹く", "agent_message": "After all, tomorrow is another day. Hope springs eternal."}
+
+// Response（実測）
+{
+  "turn_id": "turn-f0a045df",
+  "mode": "params",
+  "top_emotions": [
+    {"name": "joy", "score": 0.75},
+    {"name": "calm", "score": 0.74},
+    {"name": "curiosity", "score": 0.72}
+  ],
+  "trend": {"valence": 0.12, "arousal": 0.48, "stability": 0.55},
+  "compact_state": {"dominant": "joy", "tone": "soft_rising", "stability": "medium"},
+  "wave_parameter": {"amplitude": 0.579, "frequency": 0.685, "jitter": 0.35, "glow": 0.55, "afterglow": 0.30, "density": 0.653}
+}
+```
+
+**3. 忍耐・期待**
+
+```json
+// Request
+{"user_message": "待て、しかして希望せよ", "agent_message": "Attendre et espérer. Patience and hope go hand in hand."}
+
+// Response（実測）
+{
+  "turn_id": "turn-4eb4fd9c",
+  "mode": "params",
+  "top_emotions": [
+    {"name": "calm", "score": 0.79},
+    {"name": "curiosity", "score": 0.78},
+    {"name": "joy", "score": 0.77}
+  ],
+  "trend": {"valence": 0.08, "arousal": 0.45, "stability": 0.62},
+  "compact_state": {"dominant": "calm", "tone": "steady", "stability": "medium"},
+  "wave_parameter": {"amplitude": 0.577, "frequency": 0.683, "jitter": 0.25, "glow": 0.50, "afterglow": 0.20, "density": 0.656}
+}
+```
+
+### 比較評価メモ
+
+#### 山月記の比較メモ（独立 `conversation_id` で再計測）
+
+中島敦『山月記』の 3 場面を、ケースごとに別 `conversation_id` を使って `params mode` で比較した結果です。比較用の生データは [artifacts_yamagetsuki_results_2026-04-04_isolated.json](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts/artifacts_yamagetsuki_results_2026-04-04_isolated.json) に保存しています。
+
+`params mode` の再計測なので、ここでは `wave_output` や `concept_scores` は返していません。確認対象は `top_emotions`、`trend`、`wave_parameter` の差分です。
+
+| 場面 | top_emotions | valence | arousal | stability | wave_parameter |
+|------|--------------|---------|---------|-----------|----------------|
+| 挫折 | `anger`, `sadness`, `joy` | `-0.108` | `0.550` | `0.000` | `amplitude=0.605`, `jitter=0.998`, `density=0.951` |
+| 虎化の自覚 | `anger`, `fear`, `tension` | `-0.312` | `0.557` | `0.000` | `amplitude=0.607`, `jitter=0.997`, `density=0.951` |
+| 袁傪への告白 | `sadness`, `anger`, `tension` | `-0.308` | `0.547` | `0.000` | `amplitude=0.606`, `jitter=0.995`, `density=0.927` |
+
+この再計測では、`conversation_id` 分離によりケース間の `prev_state` 混線は避けられています。一方で、初回 turn の比較になるため `stability` は 3 件とも `0.0` から始まり、`jitter` と `density` も高止まりしています。現状の PoC は、暗い基調や恐怖寄りの差分はある程度拾えるものの、場面ごとの文字波の見た目差はまだ十分ではありません。
+
+継続的な出力検証には、青空文庫の実引用を集めた評価セットを主に使います。基準セットは [docs/evaluation-datasets.md](docs/evaluation-datasets.md) と [data/evalsets/aozora-output-validation-v1.json](data/evalsets/aozora-output-validation-v1.json) を参照してください。合成ケースの補助確認には [data/evalsets/core-output-validation-v1.json](data/evalsets/core-output-validation-v1.json) を使います。
+
+評価の実行結果や比較 artifact は、原則として [docs/artifacts](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts) に保存します。
+
+### GET /health
+
+サーバーと埋め込みサーバーの状態確認。
+
+### GET /recent
+
+最近の turn 一覧取得。
 
 ## 出力モード
 
-- `wave mode`: デフォルト。擬音、ASCII、Unicode、AA を使って気配を返す
+- `wave mode`: デフォルト。ASCII/Unicode で気配を表現
 - `params mode`: 明示的設定時のみ有効。内部数値を JSON で返す
+
+## 必須設定
+
+| キー | 説明 |
+|------|------|
+| `LLAMA_CPP_BASE_URL` | llama.cpp server URL (既定: `http://127.0.0.1:8080`) |
+| `EMBEDDING_MODEL` | 埋め込みモデル名 |
+
+## オプション設定
+
+| キー | 説明 |
+|------|------|
+| `API_HOST` | APIサーバーホスト (既定: `127.0.0.1`) |
+| `API_PORT` | APIサーバーポート (既定: `8080`) |
+| `AFFECT_OUTPUT_MODE` | 出力モード (`wave` または `params`) |
+| `DISCORD_TRANSPORT` | Discord 表示方式 (`reply_prefix` または `webhook`) |
+| `DISCORD_WEBHOOK_URL` | Webhook transport 用 URL |
+| `STATE_LOG_ENABLED` | 状態ログ有効化 (`true`/`false`) |
+| `STATE_LOG_PATH` | 状態ログパス |
+| `DISCORD_BOT_TOKEN` | Discord bot トークン (例示adapter用) |
+
+## Discord 操作
+
+Discord の基準操作は slash command です。
+
+- `/affect wave` - 既定の短い wave 表示を返す
+- `/affect params` - 同一 turn の params mode を返す
+- `/affect transport reply_prefix` - 返信文先頭へ wave block を出す
+- `/affect transport webhook` - Webhook 表示へ切り替える
+
+補助として、メッセージ内トリガーでも詳細表示を呼び出せます。英語と日本語の両方をサポートします。
+
+- 日本語例: `詳細`, `感情波`, `パラメータ`
+- 英語例: `detail`, `wave`, `params`
+
+通常表示では wave block を本文の前に置き、wave 表現単体は 80 文字以内を目標にします。`webhook` が失敗した場合は `reply_prefix` に degrade し、いずれの場合も通常応答本文は失わない前提です。
+
+## ヘルスチェック
+
+- llama.cpp embeddings server: `curl http://127.0.0.1:8080/health`
+- affect-wave API server: `curl http://127.0.0.1:8081/health`
+
+`affect-wave` 側は `{"status":"ok","embedding_ready":true}` を返せば、埋め込みサーバーへの接続まで含めて正常です。
+
+## CLI コマンド
+
+主経路は API です。CLI は確認・debug 用の補助経路として使います。
+
+- `affect-wave serve` - HTTP APIサーバー起動
+- `affect-wave inspect` - state logから turn を確認
+- `affect-wave render` - wave/params 出力
+- `affect-wave recent` - 最近の turn 一覧
+- `affect-wave discord` - Discord bot (例示実装)
+
+## Skills / OpenClaw 導入メモ
+
+Skills や OpenClaw から使うときの主経路は API です。典型的には、外部エージェントが通常の返答本文を生成し、その `user_message` と `agent_message` を `affect-wave` に渡して wave を受け取ります。
+
+### 最小 API フロー
+
+1. `affect-wave serve --port 8081` を起動
+2. 外部エージェント側で通常の返答本文を生成
+3. `POST /analyze` に `user_message` と `agent_message` を送る
+4. 返ってきた `wave_output` または `wave_parameter` を自前の UI に合成する
+
+PowerShell 例:
+
+```powershell
+$body = @{
+  user_message = "待て、しかして希望せよ"
+  agent_message = "Attendre et espérer. Patience and hope go hand in hand."
+  conversation_id = "skill-demo"
+  output_mode = "params"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri "http://127.0.0.1:8081/analyze" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body $body | ConvertTo-Json -Depth 6
+```
+
+### Skills 側で見るべき値
+
+- `wave_output`
+  text-first UI にそのまま置くときに使う
+- `wave_parameter`
+  独自 renderer や別 adapter を作るときに使う
+- `top_emotions`
+  短い説明や debug に使う
+- `trend`
+  valence / arousal / stability を補助表示したいときに使う
+
+### CLI を補助経路として使う場合
+
+- `affect-wave recent`
+  直近 turn の一覧を確認する
+- `affect-wave inspect`
+  保存済み turn の state を確認する
+- `affect-wave render --mode wave`
+  直近 turn の wave 表示を確認する
+- `affect-wave render --mode params`
+  直近 turn の内部数値を確認する
+
+Skills 導入時に Discord 連携は必須ではありません。まず API / CLI が通ることを確認し、その後必要なら Discord adapter を追加してください。
 
 ## 参照実装メモ
 
@@ -79,25 +345,13 @@
 - prototype 定義ファイルの基準配置は `data/prototypes/`
 - `top_emotions` は参照実装で上位 3 件を返す
 - `trend.valence` は `-1.0..1.0` の符号付き正規化値
-- 1 turn あたりの affect 推定レイテンシ目標は埋め込み取得込みで `800ms` 以内、`1500ms` 超は要調整
-
-## CLI 想定面
-
-実装前ドキュメント上の基準 CLI は以下です。
-
-- `affect-wave chat`
-- `affect-wave inspect --turn <id>`
-- `affect-wave render --mode wave`
-- `affect-wave render --mode params`
-
-最終的な実装名は調整してよいですが、docs と README の例はこの形にそろえます。
+- 1 turn あたりの affect 推定レイテンシ目標は埋め込み取得込みで `800ms` 以内
 
 ## ドキュメント
 
-- docs 入口: [docs/README.md](/Users/ryo-n/Codex_dev/affect-wave/docs/README.md)
-- 実装仕様書: [docs/specification.md](/Users/ryo-n/Codex_dev/affect-wave/docs/specification.md)
-- テスト設計書: [docs/test-design.md](/Users/ryo-n/Codex_dev/affect-wave/docs/test-design.md)
-- 要件定義: [requirements.md](/Users/ryo-n/Codex_dev/affect-wave/requirements.md)
-- docs 入口: [docs/requirements-api-poc.md](/Users/ryo-n/Codex_dev/affect-wave/docs/requirements-api-poc.md)
-- 憲章: [PROJECT_CHARTER.md](/Users/ryo-n/Codex_dev/affect-wave/PROJECT_CHARTER.md)
-- 商標・公式性: [TRADEMARK_POLICY.md](/Users/ryo-n/Codex_dev/affect-wave/TRADEMARK_POLICY.md)
+- 実装仕様書: [docs/specification.md](docs/specification.md)
+- RUNBOOK: [docs/RUNBOOK.md](docs/RUNBOOK.md)
+- 評価データセット: [docs/evaluation-datasets.md](docs/evaluation-datasets.md)
+- 評価 artifact: [docs/artifacts](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts)
+- 要件定義: [requirements.md](requirements.md)
+- 憲章: [PROJECT_CHARTER.md](PROJECT_CHARTER.md)

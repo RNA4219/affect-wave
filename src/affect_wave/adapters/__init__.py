@@ -1,0 +1,1 @@
+"""Output Adapter Layer - CLI, text, and Discord adapters."""

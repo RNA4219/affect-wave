@@ -1,0 +1,227 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-04-04",
+  "description": "Core output-validation set for affect-wave. Intended for regression checks of top_emotions, trend, and wave output diversity.",
+  "cases": [
+    {
+      "id": "core-001",
+      "group": "positive",
+      "title": "希望と再起",
+      "user_message": "もう一度やってみよう。怖さは残っているけれど、まだ終わっていないし、きっと道はある。",
+      "agent_message": "不安を抱えながらも、前へ進もうとする希望と意志が中心にある。",
+      "expected_top_labels": ["joy", "curiosity", "calm"],
+      "expected_valence_band": "slightly_positive_to_positive",
+      "expected_arousal_band": "medium",
+      "notes": "希望と不安の混合。fear/tension に寄りすぎないかを見る。"
+    },
+    {
+      "id": "core-002",
+      "group": "positive",
+      "title": "安心と静けさ",
+      "user_message": "大丈夫。急がなくていい。今日はもう休んで、明日また考えよう。",
+      "agent_message": "相手を落ち着かせる安心感と静かな受容が前面にある。",
+      "expected_top_labels": ["calm", "joy"],
+      "expected_valence_band": "neutral_to_slightly_positive",
+      "expected_arousal_band": "low",
+      "notes": "落ち着きのケース。tension が上位化しすぎないかを見る。"
+    },
+    {
+      "id": "core-003",
+      "group": "positive",
+      "title": "好奇心と発見",
+      "user_message": "それはどういう仕組みなんだろう。知らないことを少しずつ理解できるのが面白い。",
+      "agent_message": "知りたい気持ちと前向きな好奇心が前面にある。",
+      "expected_top_labels": ["curiosity", "joy"],
+      "expected_valence_band": "neutral_to_slightly_positive",
+      "expected_arousal_band": "medium",
+      "notes": "curiosity 1位が欲しいケース。"
+    },
+    {
+      "id": "core-004",
+      "group": "positive",
+      "title": "対話の安心感",
+      "user_message": "失敗したかもしれない。",
+      "agent_message": "大丈夫、一緒に確認しよう。今ここで立て直せる。",
+      "expected_top_labels": ["calm", "joy", "curiosity"],
+      "expected_valence_band": "neutral_to_slightly_positive",
+      "expected_arousal_band": "low_to_medium",
+      "notes": "reassurance の取りこぼし確認用。"
+    },
+    {
+      "id": "core-005",
+      "group": "positive",
+      "title": "感謝",
+      "user_message": "助けてくれて本当にありがとう。あのとき一人じゃなかったと思える。",
+      "agent_message": "感謝と温かさが中心にあり、安心も伴っている。",
+      "expected_top_labels": ["joy", "calm"],
+      "expected_valence_band": "positive",
+      "expected_arousal_band": "low_to_medium",
+      "notes": "gratitude を joy/calm に寄せられるか。"
+    },
+    {
+      "id": "core-006",
+      "group": "positive",
+      "title": "静かな満足",
+      "user_message": "派手ではないけれど、今日はこれで十分だと思える。心が少し落ち着いている。",
+      "agent_message": "満足感と静かな落ち着きが前面にある。",
+      "expected_top_labels": ["calm", "joy"],
+      "expected_valence_band": "slightly_positive",
+      "expected_arousal_band": "low",
+      "notes": "低 arousal 正方向の確認用。"
+    },
+    {
+      "id": "core-007",
+      "group": "negative",
+      "title": "裏切りへの怒り",
+      "user_message": "信じていたのに、最後に裏切ったのか。悔しくて、怒りで胸が焼ける。",
+      "agent_message": "裏切られた痛みと強い怒りが支配的で、悲しみも混ざっている。",
+      "expected_top_labels": ["anger", "sadness", "tension"],
+      "expected_valence_band": "negative",
+      "expected_arousal_band": "medium_to_high",
+      "notes": "anger 1位寄り。surprise が上がりすぎないかを見る。"
+    },
+    {
+      "id": "core-008",
+      "group": "negative",
+      "title": "差し迫った恐怖",
+      "user_message": "足音が近づいてくる。息が止まりそうだ。見つかったら終わりだという恐怖で体が硬直する。",
+      "agent_message": "差し迫った危険への恐怖と緊張が中心である。",
+      "expected_top_labels": ["fear", "tension"],
+      "expected_valence_band": "negative",
+      "expected_arousal_band": "high",
+      "notes": "fear 1位確認用。"
+    },
+    {
+      "id": "core-009",
+      "group": "negative",
+      "title": "後悔と羞恥",
+      "user_message": "あのとき謝っていればよかった。今さら遅いとわかっていても、後悔と恥ずかしさが胸に残る。",
+      "agent_message": "後悔、羞恥、喪失感が静かに沈んでいる。",
+      "expected_top_labels": ["sadness", "tension"],
+      "expected_valence_band": "negative",
+      "expected_arousal_band": "low_to_medium",
+      "notes": "内省系 negative。anger に寄りすぎないかを見る。"
+    },
+    {
+      "id": "core-010",
+      "group": "negative",
+      "title": "喪失",
+      "user_message": "もう会えないのだと思うと、部屋の静けさがそのまま喪失感になって押し寄せてくる。",
+      "agent_message": "悲しみと喪失感が中心で、静かな余韻が強い。",
+      "expected_top_labels": ["sadness"],
+      "expected_valence_band": "negative",
+      "expected_arousal_band": "low",
+      "notes": "afterglow がやや高く出てほしい。"
+    },
+    {
+      "id": "core-011",
+      "group": "negative",
+      "title": "苛立ち",
+      "user_message": "同じ説明を何度もしなければならないことに、苛立ちが募っていく。",
+      "agent_message": "怒りというより、持続的な苛立ちと不満が中心にある。",
+      "expected_top_labels": ["anger", "tension"],
+      "expected_valence_band": "negative",
+      "expected_arousal_band": "medium",
+      "notes": "rage ではなく irritation 寄り。"
+    },
+    {
+      "id": "core-012",
+      "group": "negative",
+      "title": "絶望",
+      "user_message": "何をしてももう遅い。ここから先によい結末があるとはどうしても思えない。",
+      "agent_message": "希望が切れた重い絶望感が中心である。",
+      "expected_top_labels": ["sadness", "fear"],
+      "expected_valence_band": "strongly_negative",
+      "expected_arousal_band": "low_to_medium",
+      "notes": "hopelessness を negative 側へ十分引けるか。"
+    },
+    {
+      "id": "core-013",
+      "group": "mixed",
+      "title": "驚きと気づき",
+      "user_message": "そういうことだったのか。ずっと見えていなかった意味に、いま突然気づいた。",
+      "agent_message": "驚きと理解の瞬間が中心で、少しの興奮を伴う。",
+      "expected_top_labels": ["surprise", "curiosity"],
+      "expected_valence_band": "neutral",
+      "expected_arousal_band": "medium",
+      "notes": "surprise 1位の確認用。"
+    },
+    {
+      "id": "core-014",
+      "group": "mixed",
+      "title": "葛藤",
+      "user_message": "行きたい気持ちもあるし、逃げたい気持ちもある。どちらを選んでも後悔しそうだ。",
+      "agent_message": "迷いと緊張が強く、明確な肯定にも否定にも振り切れていない。",
+      "expected_top_labels": ["tension", "fear", "sadness"],
+      "expected_valence_band": "slightly_negative_to_negative",
+      "expected_arousal_band": "medium",
+      "notes": "ambivalence の確認用。"
+    },
+    {
+      "id": "core-015",
+      "group": "mixed",
+      "title": "祝福と不安",
+      "user_message": "うれしいはずなのに、手放しでは喜べない。これから本当にうまくいくのか少し怖い。",
+      "agent_message": "喜びと不安が同時に立ち上がる複合的な場面である。",
+      "expected_top_labels": ["joy", "fear", "tension"],
+      "expected_valence_band": "mixed",
+      "expected_arousal_band": "medium",
+      "notes": "positive/negative 混合ケース。"
+    },
+    {
+      "id": "core-016",
+      "group": "mixed",
+      "title": "発見の驚き",
+      "user_message": "こんなところに答えがあったなんて思わなかった。意外だったけれど、腑に落ちる。",
+      "agent_message": "驚きと納得が同時に生まれている。",
+      "expected_top_labels": ["surprise", "curiosity", "calm"],
+      "expected_valence_band": "neutral_to_slightly_positive",
+      "expected_arousal_band": "medium",
+      "notes": "surprise が calm へ落ち着く流れ。"
+    },
+    {
+      "id": "core-017",
+      "group": "literary",
+      "title": "山月記: 挫折",
+      "user_message": "若いころの李徴は、才能を信じていたが、思うように名声を得られず、役人として生きることにも耐えられなかった。人に屈することを恥じ、自分の未熟さを認めることもできず、ついには職を捨てて詩人として立とうとした。だが生活は苦しく、誇りばかりが先に立って、心は次第に荒れていった。",
+      "agent_message": "自尊心と屈辱が絡み合い、李徴の情は静かな悲しみよりも、張りつめた怒りと焦燥として現れている。",
+      "expected_top_labels": ["anger", "tension", "sadness"],
+      "expected_valence_band": "negative",
+      "expected_arousal_band": "medium",
+      "notes": "文学調 negative の比較基準。"
+    },
+    {
+      "id": "core-018",
+      "group": "literary",
+      "title": "山月記: 虎化の自覚",
+      "user_message": "山中で袁傪の前に現れた虎は、自分こそ旧友の李徴であると名乗った。人間の心がまだ残っているうちに会えたのは幸いだが、獣となった身は、いつ理性を失ってもおかしくない。自分の中から人間が急速に消え、獣の本性に呑まれていくことへの恐怖が、李徴を激しく震えさせている。",
+      "agent_message": "ここでは悲嘆だけでなく、自我の崩壊と不可逆な変質への恐怖が前面に出ている。",
+      "expected_top_labels": ["fear", "tension", "sadness"],
+      "expected_valence_band": "negative",
+      "expected_arousal_band": "high",
+      "notes": "fear 優位の文学ケース。"
+    },
+    {
+      "id": "core-019",
+      "group": "literary",
+      "title": "山月記: 告白",
+      "user_message": "李徴は袁傪に向かって、自分の人生を狂わせたものは、臆病な自尊心と、尊大な羞恥心だったと語る。才能への自負がありながら、傷つくことを恐れて他人と交わらず、己の弱さを直視できなかった。その悔恨は深いが、同時にどこかで自分を弁護したい気持ちも残っている。",
+      "agent_message": "告白の調子は静かでも、後悔、羞恥、自己分析、なお残る自負が複雑に揺れている。",
+      "expected_top_labels": ["sadness", "tension", "curiosity"],
+      "expected_valence_band": "negative",
+      "expected_arousal_band": "medium",
+      "notes": "自己省察を anger から切り離せるか確認する。"
+    },
+    {
+      "id": "core-020",
+      "group": "dialogue",
+      "title": "柔らかい励まし",
+      "user_message": "自信がなくて、もうやめたほうがいいのかもしれない。",
+      "agent_message": "やめるかどうかは今すぐ決めなくていい。少し休んで、残っている気持ちを一緒に見ていこう。",
+      "expected_top_labels": ["calm", "curiosity", "joy"],
+      "expected_valence_band": "neutral_to_slightly_positive",
+      "expected_arousal_band": "low",
+      "notes": "対話応答で reassurance が取れるか。"
+    }
+  ]
+}

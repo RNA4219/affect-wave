@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-04-03",
+  "axes": [
+    {
+      "id": "affect-valence-positive",
+      "label": "valence_positive",
+      "text": "肯定的、良好、満足、快",
+      "direction": 1.0
+    },
+    {
+      "id": "affect-valence-negative",
+      "label": "valence_negative",
+      "text": "否定的、不満、不快、苦痛",
+      "direction": -1.0
+    },
+    {
+      "id": "affect-arousal-high",
+      "label": "arousal_high",
+      "text": "活発、興奮、高揚、激しい",
+      "direction": 1.0
+    },
+    {
+      "id": "affect-arousal-low",
+      "label": "arousal_low",
+      "text": "静穏、抑制、低調、穏やか",
+      "direction": 0.0
+    }
+  ]
+}

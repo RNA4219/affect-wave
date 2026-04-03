@@ -1,0 +1,25 @@
+{
+  "case_count": 12,
+  "predicted_label_frequency": {
+    "fear": 6,
+    "surprise": 9,
+    "tension": 5,
+    "anger": 9,
+    "curiosity": 6,
+    "calm": 1
+  },
+  "overlap_histogram": {
+    "2": 7,
+    "1": 4,
+    "0": 1
+  },
+  "distinct_wave_outputs": 3,
+  "wave_output_frequency": {
+    "~ ^ ~ : ~ ^ ~ : ~ ^ ~": 5,
+    "~ ^ ~ : ~ ^ ~ : ~ ^": 6,
+    "~ ^ ~ : ~ ^ ~ : ~ / spare": 1
+  },
+  "group_valence_average": {
+    "literary": -0.155472
+  }
+}

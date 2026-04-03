@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-04-03",
+  "labels": [
+    {
+      "id": "emotion-curiosity",
+      "label": "curiosity",
+      "text": "興味を持っている、知りたいと思っている、好奇心がある",
+      "valence_hint": 0.3,
+      "arousal_hint": 0.5
+    },
+    {
+      "id": "emotion-calm",
+      "label": "calm",
+      "text": "穏やか、平静、落ち着いている、安心している",
+      "valence_hint": 0.2,
+      "arousal_hint": 0.2
+    },
+    {
+      "id": "emotion-tension",
+      "label": "tension",
+      "text": "緊張している、張りがある、不安感がある",
+      "valence_hint": -0.2,
+      "arousal_hint": 0.6
+    },
+    {
+      "id": "emotion-joy",
+      "label": "joy",
+      "text": "喜んでいる、楽しい、幸福を感じている",
+      "valence_hint": 0.7,
+      "arousal_hint": 0.5
+    },
+    {
+      "id": "emotion-sadness",
+      "label": "sadness",
+      "text": "悲しい、落ち込んでいる、喪失感がある",
+      "valence_hint": -0.6,
+      "arousal_hint": 0.2
+    },
+    {
+      "id": "emotion-anger",
+      "label": "anger",
+      "text": "怒っている、不満がある、苛立っている",
+      "valence_hint": -0.5,
+      "arousal_hint": 0.7
+    },
+    {
+      "id": "emotion-fear",
+      "label": "fear",
+      "text": "恐れている、怖い、危険を感じている",
+      "valence_hint": -0.6,
+      "arousal_hint": 0.8
+    },
+    {
+      "id": "emotion-surprise",
+      "label": "surprise",
+      "text": "驚いている、意外性を感じている、予期していなかった",
+      "valence_hint": 0.1,
+      "arousal_hint": 0.7
+    }
+  ]
+}

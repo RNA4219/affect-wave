@@ -1,0 +1,101 @@
+[
+  {
+    "id": "yamagetsuki-01",
+    "title": "詩人として立てず、役人にも徹しきれない挫折",
+    "user_message": "李徴は、才に恃んで俗事を卑しみ、詩人として名を成そうとした。しかし生活は立たず、再び官に就いたものの、かつて見下した者の下につくことに耐えられず、羞恥と憤りのあいだで心をすり減らしていった。",
+    "agent_message": "自尊心と屈辱がぶつかり合い、外には怒り、内には深い自己否定が溜まっていく場面。",
+    "response": {
+      "turn_id": "turn-650ed7e2",
+      "wave_parameter": {
+        "amplitude": 0.638,
+        "frequency": 0.711,
+        "jitter": 0.953,
+        "glow": 0.488,
+        "afterglow": 0.053,
+        "density": 0.656
+      },
+      "output": "{\n  \"amplitude\": 0.638,\n  \"frequency\": 0.711,\n  \"jitter\": 0.953,\n  \"glow\": 0.488,\n  \"afterglow\": 0.053,\n  \"density\": 0.656\n}",
+      "top_emotions": [
+        {
+          "name": "anger",
+          "score": 0.8639658806095094
+        },
+        {
+          "name": "sadness",
+          "score": 0.851949888051921
+        },
+        {
+          "name": "tension",
+          "score": 0.8126980277765758
+        }
+      ],
+      "valence": -0.03679587803175216
+    }
+  },
+  {
+    "id": "yamagetsuki-02",
+    "title": "人間が消え、虎へ落ちる自覚",
+    "user_message": "夜の山野をさまよううち、彼は自分の中の人間の心が急速に薄れていくのを感じた。理性で踏みとどまろうとするほど獣の衝動は強くなり、やがて自分が虎として叫んでいることに気づいて、言い知れぬ恐怖に打たれた。",
+    "agent_message": "自己が崩れ、理性の手触りが失われていく恐怖と、どうにもならない転落の感覚が強い場面。",
+    "response": {
+      "turn_id": "turn-0b7cd766",
+      "wave_parameter": {
+        "amplitude": 0.642,
+        "frequency": 0.728,
+        "jitter": 0.963,
+        "glow": 0.491,
+        "afterglow": 0.039,
+        "density": 0.659
+      },
+      "output": "{\n  \"amplitude\": 0.642,\n  \"frequency\": 0.728,\n  \"jitter\": 0.963,\n  \"glow\": 0.491,\n  \"afterglow\": 0.039,\n  \"density\": 0.659\n}",
+      "top_emotions": [
+        {
+          "name": "sadness",
+          "score": 0.8666159120165718
+        },
+        {
+          "name": "anger",
+          "score": 0.8490350993183037
+        },
+        {
+          "name": "fear",
+          "score": 0.8471389090693029
+        }
+      ],
+      "valence": -0.015512059763872543
+    }
+  },
+  {
+    "id": "yamagetsuki-03",
+    "title": "袁傪への告白と臆病な自尊心",
+    "user_message": "袁傪に向かって李徴は、自分をここまで追い込んだものは、才能の不足そのものよりも、臆病な自尊心と尊大な羞恥心だったのだと語る。人に知られることを恐れ、しかも人より優れていたいと願い続けた結果、彼は自分で自分を追い詰めてしまった。",
+    "agent_message": "後悔と自己認識が最も澄んで現れる場面で、悲しみだけでなく、冷静な自己解剖と残る誇りも混ざっている。",
+    "response": {
+      "turn_id": "turn-bb46cd40",
+      "wave_parameter": {
+        "amplitude": 0.633,
+        "frequency": 0.718,
+        "jitter": 0.961,
+        "glow": 0.489,
+        "afterglow": 0.041,
+        "density": 0.655
+      },
+      "output": "{\n  \"amplitude\": 0.633,\n  \"frequency\": 0.718,\n  \"jitter\": 0.961,\n  \"glow\": 0.489,\n  \"afterglow\": 0.041,\n  \"density\": 0.655\n}",
+      "top_emotions": [
+        {
+          "name": "anger",
+          "score": 0.8477497270568983
+        },
+        {
+          "name": "sadness",
+          "score": 0.8383946774464526
+        },
+        {
+          "name": "tension",
+          "score": 0.8332169632166921
+        }
+      ],
+      "valence": -0.013031398376879832
+    }
+  }
+]

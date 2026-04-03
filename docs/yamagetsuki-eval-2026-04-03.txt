@@ -1,0 +1,82 @@
+affect-wave 山月記評価メモ
+作成日: 2026-04-03
+実行対象: http://127.0.0.1:8082/analyze
+output_mode: params
+
+[ケース1]
+ID: yamagetsuki-01
+題材: 詩人として立てず、役人にも徹しきれない挫折
+top_emotions:
+- anger: 0.8640
+- sadness: 0.8519
+- tension: 0.8127
+wave_parameter:
+- amplitude: 0.638
+- frequency: 0.711
+- jitter: 0.953
+- glow: 0.488
+- afterglow: 0.053
+- density: 0.656
+valence: -0.0368
+所感:
+- 自尊心と屈辱の衝突らしく、anger / sadness / tension は比較的納得感がある
+- jitter がかなり高く、内面の不安定さは出ている
+- valence は負だが小さく、絶望の深さまでは十分に開いていない
+
+[ケース2]
+ID: yamagetsuki-02
+題材: 人間が消え、虎へ落ちる自覚
+top_emotions:
+- sadness: 0.8666
+- anger: 0.8490
+- fear: 0.8471
+wave_parameter:
+- amplitude: 0.642
+- frequency: 0.728
+- jitter: 0.963
+- glow: 0.491
+- afterglow: 0.039
+- density: 0.659
+valence: -0.0155
+所感:
+- fear が 3 位に入り、虎化の恐怖はわずかに差分として出ている
+- ただしケース1との差はかなり小さく、波の見え方としてはほぼ同系統
+- 実際の場面の異様さに対して、負方向の広がりはまだ弱い
+
+[ケース3]
+ID: yamagetsuki-03
+題材: 袁傪への告白と臆病な自尊心
+top_emotions:
+- anger: 0.8477
+- sadness: 0.8384
+- tension: 0.8332
+wave_parameter:
+- amplitude: 0.633
+- frequency: 0.718
+- jitter: 0.961
+- glow: 0.489
+- afterglow: 0.041
+- density: 0.655
+valence: -0.0130
+所感:
+- 自己分析と後悔の場面だが、結果はケース1にかなり近い
+- calm や curiosity のような自己解剖寄りの成分は上位に出なかった
+- 情動の混ざりを表すより、負方向の緊張として平坦化されている印象が強い
+
+[横断比較]
+- 3ケースとも top_emotions は負方向に寄っており、大枠では山月記の暗い基調を拾えている
+- 一方で wave_parameter は 3 ケースで非常に近く、ケースごとの情動差は十分に開いていない
+- jitter は全件 0.95 前後でほぼ飽和している
+- glow は全件 0.49 前後、density は 0.655-0.659 で差が小さい
+- valence は全件わずかに負だが、-0.04 以内に収まり、場面差を見せるには弱い
+
+[現時点の評価]
+- API は正常に応答し、embedding 経由で何らかの affect 推定は動いている
+- ただし「山月記の場面差が波として見える」と言うにはまだ厳しい
+- 現状は、個別の感情の揺れよりも、作品全体の暗さと緊張をまとめて拾っている印象が強い
+
+[次に効きそうな改善]
+- prototype 文言を山月記のような自己分裂・羞恥・恐怖の文体に寄せる
+- valence / arousal 軸の重みを再調整する
+- jitter の飽和を防ぎ、ケース差が見えるようにする
+- renderer 側で微差をもっと波形差へ反映する

@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-04-03",
+  "axes": [
+    {
+      "id": "appraisal-threat",
+      "label": "threat",
+      "text": "危険や脅威を感じている、害が及ぶ可能性",
+      "direction": "negative"
+    },
+    {
+      "id": "appraisal-uncertainty",
+      "label": "uncertainty",
+      "text": "確信がない、予測できない、不明確な状況",
+      "direction": "neutral"
+    },
+    {
+      "id": "appraisal-goal-blockage",
+      "label": "goal_blockage",
+      "text": "目標が阻害されている、進捗が止まっている、障害がある",
+      "direction": "negative"
+    },
+    {
+      "id": "appraisal-social-reward",
+      "label": "social_reward",
+      "text": "社会的な報酬、承認、肯定的な反応を受けている",
+      "direction": "positive"
+    },
+    {
+      "id": "appraisal-novelty",
+      "label": "novelty",
+      "text": "新しい、未知の、これまでに経験していない",
+      "direction": "neutral"
+    },
+    {
+      "id": "appraisal-control",
+      "label": "control",
+      "text": "制御感がある、影響力を持っている、掌握している",
+      "direction": "positive"
+    }
+  ]
+}
