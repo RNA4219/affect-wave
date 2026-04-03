@@ -174,7 +174,7 @@ pip install .[discord]
 
 ### サンプル例
 
-> **注記**: 以下は現行実装を使って再計測した実測例です。`[data/evalsets/core-output-validation-v1.json](data/evalsets/core-output-validation-v1.json)` のケースから、比較的意味が読み取りやすい 3 件を抜粋しています。生データは [artifacts_readme_refresh_2026-04-04.json](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts/artifacts_readme_refresh_2026-04-04.json) に保存しています。
+> **注記**: 以下は現行実装を使って再計測した実測例です。`[data/evalsets/core-output-validation-v1.json](data/evalsets/core-output-validation-v1.json)` のケースから、比較的意味が読み取りやすい 3 件を抜粋しています。生データは [docs/artifacts/artifacts_readme_refresh_2026-04-04.json](docs/artifacts/artifacts_readme_refresh_2026-04-04.json) に保存しています。
 
 **1. 安心と静けさ**
 
@@ -249,7 +249,7 @@ pip install .[discord]
 
 #### 山月記の比較メモ（独立 `conversation_id` で再計測）
 
-中島敦『山月記』の 3 場面を、ケースごとに別 `conversation_id` を使って再計測した結果です。`params mode` の生データは [artifacts_yamagetsuki_results_2026-04-04_after_tune_v2.json](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts/artifacts_yamagetsuki_results_2026-04-04_after_tune_v2.json)、`wave mode` の比較結果は [artifacts_yamagetsuki_wave_2026-04-04_after_tune_v2.json](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts/artifacts_yamagetsuki_wave_2026-04-04_after_tune_v2.json) に保存しています。
+中島敦『山月記』の 3 場面を、ケースごとに別 `conversation_id` を使って再計測した結果です。`params mode` の生データは [docs/artifacts/artifacts_yamagetsuki_results_2026-04-04_after_tune_v2.json](docs/artifacts/artifacts_yamagetsuki_results_2026-04-04_after_tune_v2.json)、`wave mode` の比較結果は [docs/artifacts/artifacts_yamagetsuki_wave_2026-04-04_after_tune_v2.json](docs/artifacts/artifacts_yamagetsuki_wave_2026-04-04_after_tune_v2.json) に保存しています。
 
 今回の再計測では `conversation_id` 分離によりケース間の `prev_state` 混線を避けたうえで、`stability` 初回補正、`density/jitter` の高域圧縮、171 概念相当から 8 ラベルへの集約補正を反映しています。
 
@@ -279,7 +279,7 @@ pip install .[discord]
 
 継続的な出力検証には、青空文庫の実引用を集めた評価セットを主に使います。基準セットは [docs/evaluation-datasets.md](docs/evaluation-datasets.md) と [data/evalsets/aozora-output-validation-v1.json](data/evalsets/aozora-output-validation-v1.json) を参照してください。合成ケースの補助確認には [data/evalsets/core-output-validation-v1.json](data/evalsets/core-output-validation-v1.json) を使います。
 
-評価の実行結果や比較 artifact は、原則として [docs/artifacts](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts) に保存します。
+評価の実行結果や比較 artifact は、原則として [docs/artifacts](docs/artifacts) に保存します。
 
 ### GET /health
 
@@ -306,7 +306,7 @@ pip install .[discord]
 | キー | 説明 |
 |------|------|
 | `API_HOST` | APIサーバーホスト (既定: `127.0.0.1`) |
-| `API_PORT` | APIサーバーポート (既定: `8080`) |
+| `API_PORT` | APIサーバーポート (既定: `8081`) |
 | `AFFECT_OUTPUT_MODE` | 出力モード (`wave` または `params`) |
 | `DISCORD_TRANSPORT` | Discord 表示方式 (`reply_prefix` または `webhook`) |
 | `DISCORD_WEBHOOK_URL` | Webhook transport 用 URL |
@@ -412,6 +412,6 @@ Skills 導入時に Discord 連携は必須ではありません。まず API / 
 - 実装仕様書: [docs/specification.md](docs/specification.md)
 - RUNBOOK: [docs/RUNBOOK.md](docs/RUNBOOK.md)
 - 評価データセット: [docs/evaluation-datasets.md](docs/evaluation-datasets.md)
-- 評価 artifact: [docs/artifacts](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts)
+- 評価 artifact: [docs/artifacts](docs/artifacts)
 - 要件定義: [requirements.md](requirements.md)
 - 憲章: [PROJECT_CHARTER.md](PROJECT_CHARTER.md)
