@@ -2,6 +2,8 @@
 
 `affect-wave` は、LLM 会話に含まれる情動的ニュアンスを、文字ベースの波として可視化する `affect expression interface` です。
 
+この OSS は、Anthropic / Transformer Circuits の論文 [Emotion Concepts and their Function in a Large Language Model](https://transformer-circuits.pub/2026/emotions/index.html) から着想を得ています。論文が扱うのは Claude Sonnet 4.5 の内部活性に現れる emotion concepts ですが、`affect-wave` は API 環境でも扱えるように、ローカル埋め込みモデル経由の擬似推定と文字ベース renderer に落とし込んだ実装です。つまり、ローカル LLM の内部状態から感情を直接抜き出しているわけではなく、API 経由で受け取った会話テキストから情動ニュアンスを推定している段階の OSS です。
+
 本リポジトリは感情制御ツールではありません。情動状態を「管理」や「矯正」の対象ではなく、可視化・表現・翻訳・相互理解のための対象として扱います。公式原則は [PROJECT_CHARTER.md](PROJECT_CHARTER.md) を参照してください。
 
 ## 現在の位置づけ
@@ -75,6 +77,19 @@ affect-wave --help
 ### POST /analyze
 
 会話ペアから affect を推定し wave を生成。
+
+#### `user_message` と `agent_message` の使い方
+
+`affect-wave` は単独テキストの感情分類器ではなく、**会話の往復ペア**から情動的ニュアンスを推定します。
+
+- `user_message`: ユーザー側の発話。きっかけ、要求、困りごと、圧、感情の入力。
+- `agent_message`: エージェント側の返答。受け止め方、距離感、温度感、緊張や安心の出方。
+
+同じ `user_message` でも、`agent_message` が変わると `top_emotions` や `wave_parameter` は変わります。たとえば「もう無理です」という入力に対して、共感的な返答を返す場合と、事務的な返答を返す場合では、対話全体の affect は別物になります。
+
+実運用では、外部エージェントが**返答本文を生成したあと**で、その `user_message` と `agent_message` をまとめて `/analyze` へ送ります。`affect-wave` 自体は返答本文を生成する役割ではなく、**生成済みの会話ペアから affect expression を作る役割**です。
+
+評価やベンチマークでも同じ考え方を使います。独白や文学引用を流すときも、できるだけ `user_message` と `agent_message` に分けるか、少なくとも片側に補助文脈を入れた方が、短文単体より安定します。
 
 #### Request
 
@@ -206,17 +221,25 @@ affect-wave --help
 
 #### 山月記の比較メモ（独立 `conversation_id` で再計測）
 
-中島敦『山月記』の 3 場面を、ケースごとに別 `conversation_id` を使って `params mode` で比較した結果です。比較用の生データは [artifacts_yamagetsuki_results_2026-04-04_isolated.json](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts/artifacts_yamagetsuki_results_2026-04-04_isolated.json) に保存しています。
+中島敦『山月記』の 3 場面を、ケースごとに別 `conversation_id` を使って再計測した結果です。`params mode` の生データは [artifacts_yamagetsuki_results_2026-04-04_after_tune_v2.json](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts/artifacts_yamagetsuki_results_2026-04-04_after_tune_v2.json)、`wave mode` の比較結果は [artifacts_yamagetsuki_wave_2026-04-04_after_tune_v2.json](C:/Users/ryo-n/Codex_dev/affect-wave/docs/artifacts/artifacts_yamagetsuki_wave_2026-04-04_after_tune_v2.json) に保存しています。
 
-`params mode` の再計測なので、ここでは `wave_output` や `concept_scores` は返していません。確認対象は `top_emotions`、`trend`、`wave_parameter` の差分です。
+今回の再計測では `conversation_id` 分離によりケース間の `prev_state` 混線を避けたうえで、`stability` 初回補正、`density/jitter` の高域圧縮、171 概念相当から 8 ラベルへの集約補正を反映しています。
 
 | 場面 | top_emotions | valence | arousal | stability | wave_parameter |
 |------|--------------|---------|---------|-----------|----------------|
-| 挫折 | `anger`, `sadness`, `joy` | `-0.108` | `0.550` | `0.000` | `amplitude=0.605`, `jitter=0.998`, `density=0.951` |
-| 虎化の自覚 | `anger`, `fear`, `tension` | `-0.312` | `0.557` | `0.000` | `amplitude=0.607`, `jitter=0.997`, `density=0.951` |
-| 袁傪への告白 | `sadness`, `anger`, `tension` | `-0.308` | `0.547` | `0.000` | `amplitude=0.606`, `jitter=0.995`, `density=0.927` |
+| 挫折 | `anger`, `surprise`, `tension` | `-0.191` | `0.550` | `0.527` | `amplitude=0.581`, `jitter=0.674`, `density=0.403` |
+| 虎化の自覚 | `fear`, `anger`, `surprise` | `-0.239` | `0.557` | `0.518` | `amplitude=0.584`, `jitter=0.681`, `density=0.489` |
+| 袁傪への告白 | `anger`, `fear`, `tension` | `-0.323` | `0.547` | `0.521` | `amplitude=0.580`, `jitter=0.674`, `density=0.322` |
 
-この再計測では、`conversation_id` 分離によりケース間の `prev_state` 混線は避けられています。一方で、初回 turn の比較になるため `stability` は 3 件とも `0.0` から始まり、`jitter` と `density` も高止まりしています。現状の PoC は、暗い基調や恐怖寄りの差分はある程度拾えるものの、場面ごとの文字波の見た目差はまだ十分ではありません。
+`wave mode` の比較では、以下のように最小限の見た目差が出ています。
+
+| 場面 | wave_output |
+|------|-------------|
+| 挫折 | `~ ^ ~ : ~ ^ ~ : ~ ^` |
+| 虎化の自覚 | `~ ^ ~ : ~ ^ ~ : ~ ^ ~` |
+| 袁傪への告白 | `~ ^ ~ : ~ ^ ~ : ~ ^` |
+
+以前の再計測より `stability=0.0` 固定や `jitter≈1.0` の飽和は外れています。一方で、`虎化の自覚` と `袁傪への告白` の文字波差はまだ小さく、現状の PoC は `params mode` の差分が `wave mode` に完全には乗り切っていません。
 
 継続的な出力検証には、青空文庫の実引用を集めた評価セットを主に使います。基準セットは [docs/evaluation-datasets.md](docs/evaluation-datasets.md) と [data/evalsets/aozora-output-validation-v1.json](data/evalsets/aozora-output-validation-v1.json) を参照してください。合成ケースの補助確認には [data/evalsets/core-output-validation-v1.json](data/evalsets/core-output-validation-v1.json) を使います。
 
