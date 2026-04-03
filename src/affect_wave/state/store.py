@@ -7,7 +7,7 @@ import json
 import uuid
 
 from affect_wave.state.schemas import AffectState, WaveParameter
-from affect_wave.config import Config
+from affect_wave.config import Config, StateLogMode
 
 
 @dataclass
@@ -147,8 +147,6 @@ class StateStore:
         log_path = self.config.state_log_path
         log_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Create log entry (without sensitive data)
-        # Include all concept scores for full debug capability
         affect_dict = turn.affect_state.to_dict()
         affect_dict["concept_scores"] = [
             cs.to_dict() for cs in turn.affect_state.concept_scores
@@ -157,11 +155,19 @@ class StateStore:
         entry = {
             "turn_id": turn.turn_id,
             "timestamp": turn.timestamp.isoformat() if turn.timestamp else None,
-            "user_message": turn.user_message[:200],  # Truncate for log
-            "assistant_message": turn.assistant_message[:200],
             "affect_state": affect_dict,
             "wave_parameter": turn.wave_parameter.to_dict(),
         }
+
+        if self.config.state_log_mode == StateLogMode.PREVIEW:
+            entry["user_message_preview"] = turn.user_message[:200]
+            entry["assistant_message_preview"] = turn.assistant_message[:200]
+        elif self.config.state_log_mode == StateLogMode.FULL:
+            entry["user_message"] = turn.user_message
+            entry["assistant_message"] = turn.assistant_message
+        elif self.config.state_log_mode == StateLogMode.REDACTED:
+            entry["user_message_redacted"] = True
+            entry["assistant_message_redacted"] = True
 
         with open(log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")

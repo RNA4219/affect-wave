@@ -318,7 +318,14 @@ def discord_cmd(ctx: click.Context, env_file: Optional[Path]) -> None:
     """Run Discord bot."""
     import asyncio
 
-    from affect_wave.adapters.discord import DiscordAdapter
+    try:
+        from affect_wave.adapters.discord import DiscordAdapter
+    except ModuleNotFoundError:
+        click.echo(
+            "ERROR: discord.py is not installed. Use `pip install .[discord]` to enable the Discord adapter.",
+            err=True,
+        )
+        ctx.exit(1)
 
     config = Config.from_env(env_file)
 

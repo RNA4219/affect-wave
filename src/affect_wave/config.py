@@ -20,6 +20,13 @@ class DiscordTransport(str, Enum):
     WEBHOOK = "webhook"
 
 
+class StateLogMode(str, Enum):
+    """State log redaction mode."""
+    PREVIEW = "preview"
+    REDACTED = "redacted"
+    FULL = "full"
+
+
 @dataclass
 class Config:
     """Application configuration loaded from environment."""
@@ -44,6 +51,7 @@ class Config:
 
     # State log settings
     state_log_enabled: bool = False
+    state_log_mode: StateLogMode = StateLogMode.PREVIEW
     state_log_path: Path = field(default_factory=lambda: Path("./logs/affect-state.jsonl"))
 
     # Prototype settings
@@ -90,6 +98,7 @@ class Config:
             discord_transport=transport,
             affect_output_mode=output_mode,
             state_log_enabled=os.getenv("STATE_LOG_ENABLED", "false").lower() == "true",
+            state_log_mode=StateLogMode(os.getenv("STATE_LOG_MODE", "preview").lower()),
             state_log_path=Path(os.getenv("STATE_LOG_PATH", "./logs/affect-state.jsonl")),
             prototypes_dir=Path(os.getenv("PROTOTYPES_DIR", "./data/prototypes")),
             api_host=os.getenv("API_HOST", "127.0.0.1"),

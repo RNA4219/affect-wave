@@ -127,4 +127,18 @@ class TestConversationHistory:
         assert "User: Hello" in context
         assert "Assistant: Hi there" in context
 
+    def test_get_context_for_embedding_excludes_latest_turn(self):
+        """Should exclude latest user/assistant pair when requested."""
+        history = ConversationHistory()
+        history.add_user_message("Q1")
+        history.add_assistant_message("A1")
+        history.add_user_message("Q2")
+        history.add_assistant_message("A2")
+
+        context = history.get_context_for_embedding(include_latest_turn=False)
+
+        assert "User: Q1" in context
+        assert "Assistant: A1" in context
+        assert "User: Q2" not in context
+        assert "Assistant: A2" not in context
 

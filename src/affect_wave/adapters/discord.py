@@ -6,9 +6,14 @@ for reply_prefix style display.
 """
 
 import json
-import discord
 import httpx
-from discord import app_commands
+
+try:
+    import discord
+    from discord import app_commands
+except ModuleNotFoundError:  # pragma: no cover - exercised only when extra missing
+    discord = None
+    app_commands = None
 
 from affect_wave.config import Config, DiscordTransport, OutputMode
 from affect_wave.affect.embedding import EmbeddingClient
@@ -170,7 +175,7 @@ class DiscordAdapter:
         context = InferenceContext(
             user_message=message.content,
             assistant_message=response_text,
-            conversation_context=history.get_context_for_embedding(),
+            conversation_context=history.get_context_for_embedding(include_latest_turn=False),
             prev_state=prev_state,
         )
         affect_state = await self._inference.infer(context)
@@ -290,6 +295,11 @@ class DiscordAdapter:
         Returns:
             Configured discord.Client instance.
         """
+        if discord is None or app_commands is None:
+            raise ModuleNotFoundError(
+                "discord.py is not installed. Install with `pip install .[discord]`."
+            )
+
         intents = discord.Intents.default()
         intents.message_content = True
 

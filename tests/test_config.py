@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 import pytest
 
-from affect_wave.config import Config, OutputMode, DiscordTransport
+from affect_wave.config import Config, OutputMode, DiscordTransport, StateLogMode
 
 
 class TestConfig:
@@ -17,6 +17,7 @@ class TestConfig:
         assert config.affect_output_mode == OutputMode.PARAMS
         assert config.discord_transport == DiscordTransport.REPLY_PREFIX
         assert config.state_log_enabled is False
+        assert config.state_log_mode == StateLogMode.PREVIEW
         assert config.api_host == "127.0.0.1"
         assert config.api_port == 8081
 
@@ -24,11 +25,13 @@ class TestConfig:
         """Should load from environment variables."""
         monkeypatch.setenv("AFFECT_OUTPUT_MODE", "params")
         monkeypatch.setenv("STATE_LOG_ENABLED", "true")
+        monkeypatch.setenv("STATE_LOG_MODE", "redacted")
         monkeypatch.setenv("API_PORT", "9000")
 
         config = Config.from_env()
 
         assert config.state_log_enabled is True
+        assert config.state_log_mode == StateLogMode.REDACTED
         assert config.api_port == 9000
 
     def test_output_mode_selection(self, monkeypatch: pytest.MonkeyPatch):

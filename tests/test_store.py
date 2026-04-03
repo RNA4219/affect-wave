@@ -14,7 +14,7 @@ from affect_wave.state.schemas import (
     CompactState,
     StabilityLevel,
 )
-from affect_wave.config import Config
+from affect_wave.config import Config, StateLogMode
 
 
 class TestStateStore:
@@ -232,3 +232,71 @@ class TestStateStoreLogging:
             assert entry["turn_id"] == "turn-1"
             assert "affect_state" in entry
             assert "wave_parameter" in entry
+
+    def test_log_preview_mode(self, tmp_path: Path):
+        """Should write message previews in preview mode."""
+        config = Config(
+            state_log_enabled=True,
+            state_log_mode=StateLogMode.PREVIEW,
+            state_log_path=tmp_path / "preview.jsonl",
+        )
+        store = StateStore(config)
+
+        state = AffectState(
+            turn_id="turn-preview",
+            timestamp=None,
+            top_emotions=[EmotionScore(name="joy", score=0.8)],
+            appraisal=AppraisalScores(),
+            trend=Trend(valence=0.5),
+        )
+        store.store_turn("Hello user", "Hello assistant", state, WaveParameter())
+
+        entry = json.loads((tmp_path / "preview.jsonl").read_text().splitlines()[0])
+        assert "user_message_preview" in entry
+        assert "assistant_message_preview" in entry
+        assert "user_message" not in entry
+
+    def test_log_redacted_mode(self, tmp_path: Path):
+        """Should redact message bodies in redacted mode."""
+        config = Config(
+            state_log_enabled=True,
+            state_log_mode=StateLogMode.REDACTED,
+            state_log_path=tmp_path / "redacted.jsonl",
+        )
+        store = StateStore(config)
+
+        state = AffectState(
+            turn_id="turn-redacted",
+            timestamp=None,
+            top_emotions=[EmotionScore(name="joy", score=0.8)],
+            appraisal=AppraisalScores(),
+            trend=Trend(valence=0.5),
+        )
+        store.store_turn("Hello user", "Hello assistant", state, WaveParameter())
+
+        entry = json.loads((tmp_path / "redacted.jsonl").read_text().splitlines()[0])
+        assert entry["user_message_redacted"] is True
+        assert entry["assistant_message_redacted"] is True
+        assert "user_message_preview" not in entry
+
+    def test_log_full_mode(self, tmp_path: Path):
+        """Should write full messages in full mode."""
+        config = Config(
+            state_log_enabled=True,
+            state_log_mode=StateLogMode.FULL,
+            state_log_path=tmp_path / "full.jsonl",
+        )
+        store = StateStore(config)
+
+        state = AffectState(
+            turn_id="turn-full",
+            timestamp=None,
+            top_emotions=[EmotionScore(name="joy", score=0.8)],
+            appraisal=AppraisalScores(),
+            trend=Trend(valence=0.5),
+        )
+        store.store_turn("Hello user", "Hello assistant", state, WaveParameter())
+
+        entry = json.loads((tmp_path / "full.jsonl").read_text().splitlines()[0])
+        assert entry["user_message"] == "Hello user"
+        assert entry["assistant_message"] == "Hello assistant"

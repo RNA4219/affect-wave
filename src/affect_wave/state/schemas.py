@@ -116,7 +116,7 @@ class AffectState:
         """Convert to dict for JSON output."""
         return {
             "turn_id": self.turn_id,
-            "timestamp": self.timestamp.isoformat(),
+            "timestamp": self.timestamp.isoformat() if self.timestamp else None,
             "top_emotions": [
                 {"name": e.name, "score": round(e.score, 3)}
                 for e in self.top_emotions

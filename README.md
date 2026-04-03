@@ -78,11 +78,20 @@ API_PORT=8081
 ### 4. APIサーバー起動
 
 ```powershell
+# 基本インストール
+pip install .
+
 # サーバー起動
 affect-wave serve --port 8081
 
 # ヘルプ確認
 affect-wave --help
+```
+
+Discord adapter を使う場合は optional extra を入れます。
+
+```powershell
+pip install .[discord]
 ```
 
 ## API エンドポイント
@@ -302,6 +311,7 @@ affect-wave --help
 | `DISCORD_TRANSPORT` | Discord 表示方式 (`reply_prefix` または `webhook`) |
 | `DISCORD_WEBHOOK_URL` | Webhook transport 用 URL |
 | `STATE_LOG_ENABLED` | 状態ログ有効化 (`true`/`false`) |
+| `STATE_LOG_MODE` | ログ本文の扱い (`preview` / `redacted` / `full`) |
 | `STATE_LOG_PATH` | 状態ログパス |
 | `DISCORD_BOT_TOKEN` | Discord bot トークン (例示adapter用) |
 

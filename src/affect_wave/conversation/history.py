@@ -138,14 +138,25 @@ class ConversationHistory:
         excess = len(self.messages) - self.max_turns
         self.messages = self.messages[excess:]
 
-    def get_context_for_embedding(self) -> str:
+    def get_context_for_embedding(self, include_latest_turn: bool = True) -> str:
         """Get concatenated context for embedding generation.
+
+        Args:
+            include_latest_turn: Whether to include the latest user/assistant
+                pair in the returned context.
 
         Returns:
             String containing recent conversation context.
         """
         # Use last few turns for embedding context
         recent_messages = self.messages[-4:] if len(self.messages) >= 4 else self.messages
+        if (
+            not include_latest_turn
+            and len(recent_messages) >= 2
+            and recent_messages[-1].role == "assistant"
+            and recent_messages[-2].role == "user"
+        ):
+            recent_messages = recent_messages[:-2]
         parts = []
         for msg in recent_messages:
             prefix = "User" if msg.role == "user" else "Assistant"
